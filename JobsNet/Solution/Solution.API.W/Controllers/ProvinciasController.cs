@@ -29,7 +29,7 @@ namespace Solution.API.W.Controllers
 
         // GET: api/Provincias/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Provincias>> GetProvincias(string id)
+        public async Task<ActionResult<Provincias>> GetProvincias(int id)
         {
             var provincias = await _context.Provincias.FindAsync(id);
 
@@ -45,7 +45,7 @@ namespace Solution.API.W.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProvincias(string id, Provincias provincias)
+        public async Task<IActionResult> PutProvincias(int id, Provincias provincias)
         {
             if (id != provincias.IdProvincia)
             {
@@ -101,7 +101,7 @@ namespace Solution.API.W.Controllers
 
         // DELETE: api/Provincias/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Provincias>> DeleteProvincias(string id)
+        public async Task<ActionResult<Provincias>> DeleteProvincias(int id)
         {
             var provincias = await _context.Provincias.FindAsync(id);
             if (provincias == null)
@@ -115,7 +115,7 @@ namespace Solution.API.W.Controllers
             return provincias;
         }
 
-        private bool ProvinciasExists(string id)
+        private bool ProvinciasExists(int id)
         {
             return _context.Provincias.Any(e => e.IdProvincia == id);
         }
