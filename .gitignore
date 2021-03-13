@@ -1,3 +1,5 @@
+bin/
+obj/
 JobsNet/Solution/.vs/Solution/DesignTimeBuild/.dtbcache.v2
 JobsNet/Solution/.vs/Solution/config/applicationhost.config
 JobsNet/Solution/.vs/Solution/v16/.suo
