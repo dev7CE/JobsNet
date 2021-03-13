@@ -8,11 +8,9 @@ namespace Solution.API.W.Models
     public partial class ListaOferentes
     {
         [Key]
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdOferente { get; set; }
+        public int IdOferente { get; set; }
         [Key]
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdPuesto { get; set; }
+        public int IdPuesto { get; set; }
         public bool? Descartado { get; set; }
 
         [ForeignKey(nameof(IdOferente))]

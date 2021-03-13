@@ -13,14 +13,11 @@ namespace Solution.API.W.Models
         }
 
         [Key]
-        [Column(TypeName = "numeric(10, 0)")]
-        public decimal IdCanton { get; set; }
+        public int IdCanton { get; set; }
         [Required]
         [StringLength(150)]
         public string NombreCanton { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string IdProvincia { get; set; }
+        public int IdProvincia { get; set; }
 
         [ForeignKey(nameof(IdProvincia))]
         [InverseProperty(nameof(Provincias.Cantones))]

@@ -13,10 +13,8 @@ namespace Solution.API.W.Models
         }
 
         [Key]
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdPuesto { get; set; }
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdEmpresa { get; set; }
+        public int IdPuesto { get; set; }
+        public int IdEmpresa { get; set; }
         [Required]
         [StringLength(150)]
         public string Titulo { get; set; }

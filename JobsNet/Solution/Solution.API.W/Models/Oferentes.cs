@@ -13,8 +13,7 @@ namespace Solution.API.W.Models
         }
 
         [Key]
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdOferente { get; set; }
+        public int IdOferente { get; set; }
         [Required]
         [StringLength(150)]
         public string Nombre { get; set; }

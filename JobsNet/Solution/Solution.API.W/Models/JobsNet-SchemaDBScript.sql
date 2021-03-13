@@ -1,6 +1,6 @@
 ﻿CREATE DATABASE [JobsNet]
 GO
-USE [jobsnet]
+USE [JobsNet]
 GO
 -- ---------------------------------------------------------------------
 -- ------------------------------ TABLAS -------------------------------
@@ -13,34 +13,34 @@ GO
 -- ---------------------------------------------------------------------
 -- ---------------------------------------------------------- PROVINCIAS
 CREATE TABLE [dbo].[Provincias](
-[IdProvincia] [nchar](50) NOT NULL PRIMARY KEY,
+[IdProvincia] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 [NombreProvincia] [varchar](150) NOT NULL
 )
 GO
 -- ---------------------------------------------------------------------
 -- ------------------------------------------------------------ CANTONES
 CREATE TABLE [dbo].[Cantones](
-[IdCanton] [numeric](10, 0) IDENTITY(1,1) NOT NULL PRIMARY KEY,
+[IdCanton] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 [NombreCanton] [varchar](150) NOT NULL,
-[IdProvincia] [nchar](50) NOT NULL
+[IdProvincia] [int] NOT NULL
 )
 GO
 -- ---------------------------------------------------------------------
 -- ------------------------------------------------------------ EMPRESAS
 CREATE TABLE [dbo].[Empresas](
-[IdEmpresa] [numeric](18, 0) IDENTITY(1,1) NOT NULL PRIMARY KEY,
+[IdEmpresa] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 [NombreEmpresa] [varchar](150) NOT NULL,
 [Descripcion] [varchar](150),
 [Telefono] [varchar](150),
-[IdCanton] [numeric](10, 0),
+[IdCanton] [int],
 [UserName] [nvarchar](256) NOT NULL,
 )
 GO
 -- ---------------------------------------------------------------------
 -- -------------------------------------------------- PUESTOS DE TRABAJO
 CREATE TABLE [dbo].[PuestosTrabajo](
-[IdPuesto] [numeric](18, 0) IDENTITY(1,1) NOT NULL PRIMARY KEY,
-[IdEmpresa] [numeric](18, 0) NOT NULL,
+[IdPuesto] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+[IdEmpresa] [int] NOT NULL,
 [Titulo] [varchar](150) NOT NULL,
 [Descripcion] [varchar](150),
 [Requisitos] [varchar](150),
@@ -51,7 +51,7 @@ GO
 -- ---------------------------------------------------------------------
 -- ----------------------------------------------------------- OFERENTES
 CREATE TABLE [dbo].[Oferentes](
-[IdOferente] [numeric](18, 0) IDENTITY(1,1) NOT NULL PRIMARY KEY,
+[IdOferente] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 [Nombre] [varchar](150) NOT NULL,
 [Apellido1] [varchar](150),
 [Apellido2] [varchar](150),
@@ -64,8 +64,8 @@ GO
 -- ---------------------------------------------------------------------
 -- ----------------------------------------------------- LISTA OFERENTES
 CREATE TABLE [dbo].[ListaOferentes](
-[IdOferente] [numeric](18, 0) NOT NULL,
-[IdPuesto] [numeric](18, 0) NOT NULL,
+[IdOferente] [int] NOT NULL,
+[IdPuesto] [int] NOT NULL,
 [Descartado] [bit] DEFAULT 0,
 PRIMARY KEY ([IdOferente], [IdPuesto])
 )
@@ -111,29 +111,29 @@ GO
 -- ------------------------ INSERCION DE DATOS -------------------------
 -- ---------------------------------------------------------------------
 -- ---------------------------------------------------------- PROVINCIAS
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('ALJ', 'Alajuela');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('CAR', 'Cartago');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('GUA', 'Guanacaste');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('HER', 'Heredia');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('LIM', 'Limon');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('PUN', 'Puntarenas');
-INSERT INTO Provincias (IdProvincia, NombreProvincia) VALUES ('SJO', 'San Jose');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Alajuela');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Cartago');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Guanacaste');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Heredia');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Limon');
+INSERT INTO Provincias (NombreProvincia) VALUES ('Puntarenas');
+INSERT INTO Provincias (NombreProvincia) VALUES ('San Jose');
 -- ---------------------------------------------------------------------
 -- ------------------------------------------------------------ CANTONES
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Ramon', 'ALJ');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Atenas', 'ALJ');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Union', 'CAR');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Paraiso', 'CAR');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Liberia', 'GUA');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Cruz', 'GUA');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Rafael', 'HER');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Belen', 'HER');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Pocosi', 'LIM');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guacimo', 'LIM');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Esparza', 'PUN');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Buenos Aires', 'PUN');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guadalupe', 'SJO');
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Montes de Oca', 'SJO');
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Ramon', 1);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Atenas', 1);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Union', 2);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Paraiso', 2);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Liberia', 3);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Cruz', 3);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Rafael', 4);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Belen', 4);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Pocosi', 5);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guacimo', 5);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Esparza', 6);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Buenos Aires', 6);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guadalupe', 7);
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Montes de Oca', 7);
 -- ---------------------------------------------------------------------
 -- --------------------------------------------------- USUARIOS IDENTITY
 INSERT INTO Usuarios (UserName) VALUES ('recursoshumanos@kcc.com');

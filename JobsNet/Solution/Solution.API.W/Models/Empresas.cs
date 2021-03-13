@@ -13,8 +13,7 @@ namespace Solution.API.W.Models
         }
 
         [Key]
-        [Column(TypeName = "numeric(18, 0)")]
-        public decimal IdEmpresa { get; set; }
+        public int IdEmpresa { get; set; }
         [Required]
         [StringLength(150)]
         public string NombreEmpresa { get; set; }
@@ -22,8 +21,7 @@ namespace Solution.API.W.Models
         public string Descripcion { get; set; }
         [StringLength(150)]
         public string Telefono { get; set; }
-        [Column(TypeName = "numeric(10, 0)")]
-        public decimal? IdCanton { get; set; }
+        public int? IdCanton { get; set; }
         [Required]
         [StringLength(256)]
         public string UserName { get; set; }

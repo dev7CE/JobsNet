@@ -36,11 +36,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Cantones>(entity =>
             {
                 entity.HasKey(e => e.IdCanton)
-                    .HasName("PK__Cantones__6DCE0F29D0243924");
-
-                entity.Property(e => e.IdCanton).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.IdProvincia).IsFixedLength();
+                    .HasName("PK__Cantones__6DCE0F29984D3C80");
 
                 entity.Property(e => e.NombreCanton).IsUnicode(false);
 
@@ -54,9 +50,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Empresas>(entity =>
             {
                 entity.HasKey(e => e.IdEmpresa)
-                    .HasName("PK__Empresas__5EF4033E487C9EBA");
-
-                entity.Property(e => e.IdEmpresa).ValueGeneratedOnAdd();
+                    .HasName("PK__Empresas__5EF4033EA0D65791");
 
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
@@ -79,7 +73,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<ListaOferentes>(entity =>
             {
                 entity.HasKey(e => new { e.IdOferente, e.IdPuesto })
-                    .HasName("PK__ListaOfe__A1C3BA0890EF2948");
+                    .HasName("PK__ListaOfe__A1C3BA08AF628CDD");
 
                 entity.Property(e => e.Descartado).HasDefaultValueSql("((0))");
 
@@ -99,9 +93,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Oferentes>(entity =>
             {
                 entity.HasKey(e => e.IdOferente)
-                    .HasName("PK__Oferente__7B197CB197510F67");
-
-                entity.Property(e => e.IdOferente).ValueGeneratedOnAdd();
+                    .HasName("PK__Oferente__7B197CB1396F3383");
 
                 entity.Property(e => e.Apellido1).IsUnicode(false);
 
@@ -121,9 +113,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Provincias>(entity =>
             {
                 entity.HasKey(e => e.IdProvincia)
-                    .HasName("PK__Provinci__EED74455AF94AFF9");
-
-                entity.Property(e => e.IdProvincia).IsFixedLength();
+                    .HasName("PK__Provinci__EED74455C86E2F8A");
 
                 entity.Property(e => e.NombreProvincia).IsUnicode(false);
             });
@@ -131,9 +121,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<PuestosTrabajo>(entity =>
             {
                 entity.HasKey(e => e.IdPuesto)
-                    .HasName("PK__PuestosT__ADAC6B9CFBA0712A");
-
-                entity.Property(e => e.IdPuesto).ValueGeneratedOnAdd();
+                    .HasName("PK__PuestosT__ADAC6B9C335B449B");
 
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
@@ -153,7 +141,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Usuarios__C9F2845749124477");
+                    .HasName("PK__Usuarios__C9F28457FE19CC98");
             });
 
             OnModelCreatingPartial(modelBuilder);

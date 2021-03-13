@@ -13,8 +13,7 @@ namespace Solution.API.W.Models
         }
 
         [Key]
-        [StringLength(50)]
-        public string IdProvincia { get; set; }
+        public int IdProvincia { get; set; }
         [Required]
         [StringLength(150)]
         public string NombreProvincia { get; set; }
