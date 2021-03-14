@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Solution.DAL.EF;
@@ -13,46 +14,37 @@ namespace Solution.API.W.Controllers
     public class ProvinciasController : ControllerBase
     {
         private readonly SolutionDbContext _context;
+        private IMapper _mapper;
 
-        public ProvinciasController(SolutionDbContext context)
+        public ProvinciasController(SolutionDbContext context, IMapper mapper = null)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Provincias
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DataModels.Provincias>>> GetProvincias()
         {
-            List<DataModels.Provincias> aux = new List<DataModels.Provincias>(); 
-            //return await _context.Provincias.ToListAsync();
-            foreach (var provincia in (new BS.Provincia(_context).GetAll()))
-            {
-                DataModels.Provincias toAs = new DataModels.Provincias 
-                {
-                    IdProvincia = provincia.IdProvincia,
-                    NombreProvincia = provincia.NombreProvincia
-                };
-                aux.Add(toAs);
-            }
-            return aux;
+            var result = new List<DataModels.Provincias>();
+
+            var mappAux = _mapper.Map<IEnumerable<DataModels.Provincias>>(result).ToList();  
+            
+            return mappAux;
         }
 
         // GET: api/Provincias/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DataModels.Provincias>> GetProvincias(int id)
         {
-            var provincia = new BS.Provincia(_context).GetOneById(id);
+            var result = new BS.Provincia(_context).GetOneById(id);
 
-            if (provincia == null)
-            {
-                return NotFound();
-            }
-            DataModels.Provincias prov = new DataModels.Provincias
-            {
-                IdProvincia = provincia.IdProvincia,
-                NombreProvincia = provincia.NombreProvincia
-            }; 
-            return prov;
+            if (result == null)
+            return NotFound();
+            
+            var mappAux = _mapper.Map<DataModels.Provincias>(result);
+             
+            return mappAux;
         }
 
         //// PUT: api/Provincias/5

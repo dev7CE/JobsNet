@@ -1,9 +1,11 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Solution.API.Mapping;
 using Solution.DAL.EF;
 
 namespace Solution.API
@@ -23,6 +25,16 @@ namespace Solution.API
             services.AddDbContext<SolutionDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("JobsNetConnString")));
             services.AddControllers();
+
+            // ----------------- AutoMapper -----------------
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            // ----------------- AutoMapper -----------------
 
             // SWAGGER API Documentation
             services.AddSwaggerGen();
