@@ -61,7 +61,7 @@ namespace Solution.API.W.Controllers
             
             try
             {
-                new DAL.Provincia(_context).Update(
+                new BS.Provincia(_context).Update(
                 _mapper.Map<DOObjects.Provincias>(provincias)
                 );
             }
