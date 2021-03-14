@@ -9,11 +9,11 @@ namespace Solution.DAL.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly SolutionDbContext _dbContext;
+        protected readonly SolutionDbContext _dbContext;
 
         public Repository(SolutionDbContext dbContext)
         {
-            _dbContext = dbContext;
+            this._dbContext = dbContext;
         }
 
         public void AddRange(IEnumerable<T> entities)

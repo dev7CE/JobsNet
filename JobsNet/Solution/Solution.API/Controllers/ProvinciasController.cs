@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Solution.DAL.EF;
+using DOObjects = Solution.DO.Objects;
 
 namespace Solution.API.W.Controllers
 {
@@ -26,11 +27,13 @@ namespace Solution.API.W.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DataModels.Provincias>>> GetProvincias()
         {
-            var result = new List<DataModels.Provincias>();
+            //var result = new BS.Provincia(_context).GetAll();
 
-            var mappAux = _mapper.Map<IEnumerable<DataModels.Provincias>>(result).ToList();  
+            var provincias = _mapper.Map<IEnumerable<DataModels.Provincias>>(
+                new BS.Provincia(_context).GetAll()
+            ).ToList();  
             
-            return mappAux;
+            return provincias;
         }
 
         // GET: api/Provincias/5
@@ -47,83 +50,77 @@ namespace Solution.API.W.Controllers
             return mappAux;
         }
 
-        //// PUT: api/Provincias/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutProvincias(int id, Provincias provincias)
-        //{
-        //    if (id != provincias.IdProvincia)
-        //    {
-        //        return BadRequest();
-        //    }
-//
-        //    _context.Entry(provincias).State = EntityState.Modified;
-//
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProvinciasExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-//
-        //    return NoContent();
-        //}
-//
-        //// POST: api/Provincias
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<Provincias>> PostProvincias(Provincias provincias)
-        //{
-        //    _context.Provincias.Add(provincias);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (ProvinciasExists(provincias.IdProvincia))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-//
-        //    return CreatedAtAction("GetProvincias", new { id = provincias.IdProvincia }, provincias);
-        //}
-//
-        //// DELETE: api/Provincias/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Provincias>> DeleteProvincias(int id)
-        //{
-        //    var provincias = await _context.Provincias.FindAsync(id);
-        //    if (provincias == null)
-        //    {
-        //        return NotFound();
-        //    }
-//
-        //    _context.Provincias.Remove(provincias);
-        //    await _context.SaveChangesAsync();
-//
-        //    return provincias;
-        //}
-//
-        //private bool ProvinciasExists(int id)
-        //{
-        //    return _context.Provincias.Any(e => e.IdProvincia == id);
-        //}
+        // PUT: api/Provincias/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProvincias(int id, DataModels.Provincias provincias)
+        {
+            if (id != provincias.IdProvincia)
+            return BadRequest();
+            
+            try
+            {
+                new DAL.Provincia(_context).Update(
+                _mapper.Map<DOObjects.Provincias>(provincias)
+                );
+            }
+            catch (Exception)
+            {
+                if (!ProvinciasExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        // POST: api/Provincias
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<DataModels.Provincias>> PostProvincias(DataModels.Provincias provincias)
+        {
+            try
+            {
+                new BS.Provincia(_context).Insert(
+                        _mapper.Map<DOObjects.Provincias>(provincias)
+                );
+            }
+            catch (Exception)
+            {
+                if (ProvinciasExists(provincias.IdProvincia))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return CreatedAtAction("GetProvincias", new { id = provincias.IdProvincia }, provincias);
+        }
+
+        // DELETE: api/Provincias/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataModels.Provincias>> DeleteProvincias(int id)
+        {
+            var provincias = new BS.Provincia(_context).GetOneById(id);
+            if (provincias == null)
+            return NotFound();
+            
+            new BS.Provincia(_context).Delete(provincias);
+
+            return _mapper.Map<DataModels.Provincias>(provincias);
+        }
+
+        private bool ProvinciasExists(int id)
+        {
+            return (new BS.Provincia(_context).GetOneById(id) != null);
+        }
     }
 }
