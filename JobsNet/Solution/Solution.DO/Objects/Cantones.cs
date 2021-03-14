@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Solution.DO.Objects
 {
-    public partial class Provincias
+    public partial class Cantones
     {
+        public int IdCanton { get; set; }
+        public string NombreCanton { get; set; }
         public int IdProvincia { get; set; }
-        public string NombreProvincia { get; set; }
-        public virtual ICollection<Cantones> Cantones { get; set; }
+        public virtual Provincias Provincia { get; set; }
     }
 }

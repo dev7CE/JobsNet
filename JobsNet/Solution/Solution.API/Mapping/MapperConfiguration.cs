@@ -8,6 +8,7 @@ namespace Solution.API.Mapping
         public MappingProfile ()
         {
             CreateMap<data.Provincias, DataModels.Provincias>().ReverseMap();
+            CreateMap<data.Cantones, DataModels.Cantones>().ReverseMap();
         }
     }
 }
