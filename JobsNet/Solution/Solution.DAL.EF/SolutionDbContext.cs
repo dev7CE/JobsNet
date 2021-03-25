@@ -12,6 +12,7 @@ namespace Solution.DAL.EF
 
         public virtual DbSet<Cantones> Cantones { get; set; }
         public virtual DbSet<Provincias> Provincias { get; set; }
+        public virtual DbSet<Usuarios> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,13 @@ namespace Solution.DAL.EF
 
                 entity.Property(e => e.NombreProvincia).IsUnicode(false);
             });
+            
+            modelBuilder.Entity<Usuarios>(entity =>
+            {
+                entity.HasKey(e => e.UserName)
+                    .HasName("PK__Usuarios__C9F28457FE19CC98");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
