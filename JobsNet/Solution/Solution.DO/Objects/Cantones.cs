@@ -11,5 +11,6 @@ namespace Solution.DO.Objects
         public string NombreCanton { get; set; }
         public int IdProvincia { get; set; }
         public virtual Provincias Provincia { get; set; }
+        public virtual ICollection<Empresas> Empresas { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Solution.API.Mapping
             CreateMap<data.Provincias, DataModels.Provincias>().ReverseMap();
             CreateMap<data.Cantones, DataModels.Cantones>().ReverseMap();
             CreateMap<data.Usuarios, DataModels.Usuarios>().ReverseMap();
+            CreateMap<data.Empresas, DataModels.Empresas>().ReverseMap();
         }
     }
 }
