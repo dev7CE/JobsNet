@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Solution.DAL.EF;
 using data = Solution.DO.Objects;  
 
-namespace Solution.API.W.Controllers
+namespace Solution.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

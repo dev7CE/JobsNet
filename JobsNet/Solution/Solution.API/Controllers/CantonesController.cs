@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Solution.DAL.EF;
 using DOObjects = Solution.DO.Objects;
 
-namespace Solution.API.W.Controllers
+namespace Solution.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
