@@ -16,6 +16,6 @@ namespace Solution.DO.Objects
         public string UserName { get; set; }
 
         public virtual ICollection<Empresas> Empresas { get; set; }
-        //public virtual ICollection<Oferentes> Oferentes { get; set; }
+        public virtual ICollection<Oferentes> Oferentes { get; set; }
     }
 }

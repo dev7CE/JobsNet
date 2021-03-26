@@ -12,6 +12,7 @@ namespace Solution.DAL.EF
 
         public virtual DbSet<Cantones> Cantones { get; set; }
         public virtual DbSet<Empresas> Empresas { get; set; }
+        public virtual DbSet<Oferentes> Oferentes { get; set; }
         public virtual DbSet<Provincias> Provincias { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
 
@@ -52,6 +53,26 @@ namespace Solution.DAL.EF
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USUARIO_EMPRESA");
+            });
+
+            modelBuilder.Entity<Oferentes>(entity =>
+            {
+                entity.HasKey(e => e.IdOferente)
+                    .HasName("PK__Oferente__7B197CB1396F3383");
+
+                entity.Property(e => e.Apellido1).IsUnicode(false);
+
+                entity.Property(e => e.Apellido2).IsUnicode(false);
+
+                entity.Property(e => e.Nombre).IsUnicode(false);
+
+                entity.Property(e => e.Telefono).IsUnicode(false);
+
+                entity.HasOne(d => d.Usuario)
+                    .WithMany(p => p.Oferentes)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USUARIO_OFERENTE");
             });
 
             modelBuilder.Entity<Provincias>(entity =>
