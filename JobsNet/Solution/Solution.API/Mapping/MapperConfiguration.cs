@@ -13,6 +13,7 @@ namespace Solution.API.Mapping
             CreateMap<data.Empresas, DataModels.Empresas>().ReverseMap();
             CreateMap<data.Oferentes, DataModels.Oferentes>().ReverseMap();
             CreateMap<data.PuestosTrabajo, DataModels.PuestosTrabajo>().ReverseMap();
+            CreateMap<data.ListaOferentes, DataModels.ListaOferentes>().ReverseMap();
         }
     }
 }

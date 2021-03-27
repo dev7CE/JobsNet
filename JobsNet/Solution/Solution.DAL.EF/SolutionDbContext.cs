@@ -12,6 +12,7 @@ namespace Solution.DAL.EF
 
         public virtual DbSet<Cantones> Cantones { get; set; }
         public virtual DbSet<Empresas> Empresas { get; set; }
+        public virtual DbSet<ListaOferentes> ListaOferentes { get; set; }
         public virtual DbSet<Oferentes> Oferentes { get; set; }
         public virtual DbSet<Provincias> Provincias { get; set; }
         public virtual DbSet<PuestosTrabajo> PuestosTrabajo { get; set; }
@@ -54,6 +55,26 @@ namespace Solution.DAL.EF
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USUARIO_EMPRESA");
+            });
+
+            modelBuilder.Entity<ListaOferentes>(entity =>
+            {
+                entity.HasKey(e => new { e.IdOferente, e.IdPuesto })
+                    .HasName("PK__ListaOfe__A1C3BA08AF628CDD");
+
+                entity.Property(e => e.Descartado).HasDefaultValueSql("((0))");
+
+                entity.HasOne(d => d.Oferente)
+                    .WithMany(p => p.ListaOferentes)
+                    .HasForeignKey(d => d.IdOferente)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ID_OFERENTE");
+
+                entity.HasOne(d => d.PuestoTrabajo)
+                    .WithMany(p => p.ListaOferentes)
+                    .HasForeignKey(d => d.IdPuesto)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ID_PUESTO");
             });
 
             modelBuilder.Entity<Oferentes>(entity =>

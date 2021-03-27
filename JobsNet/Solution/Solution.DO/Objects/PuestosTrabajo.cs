@@ -17,6 +17,6 @@ namespace Solution.DO.Objects
         public DateTime FechaCierre { get; set; }
 
         public virtual Empresas Empresa { get; set; }
-        //public virtual ICollection<ListaOferentes> ListaOferentes { get; set; }
+        public virtual ICollection<ListaOferentes> ListaOferentes { get; set; }
     }
 }

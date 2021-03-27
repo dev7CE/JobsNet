@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Solution.DO.Objects
 {
@@ -14,5 +15,6 @@ namespace Solution.DO.Objects
         public string UserName { get; set; }
 
         public virtual Usuarios Usuario { get; set; }
+        public virtual ICollection<ListaOferentes> ListaOferentes { get; set; }
     }
 }
