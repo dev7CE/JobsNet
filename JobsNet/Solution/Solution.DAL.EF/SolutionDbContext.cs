@@ -14,6 +14,7 @@ namespace Solution.DAL.EF
         public virtual DbSet<Empresas> Empresas { get; set; }
         public virtual DbSet<Oferentes> Oferentes { get; set; }
         public virtual DbSet<Provincias> Provincias { get; set; }
+        public virtual DbSet<PuestosTrabajo> PuestosTrabajo { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -82,7 +83,27 @@ namespace Solution.DAL.EF
 
                 entity.Property(e => e.NombreProvincia).IsUnicode(false);
             });
-            
+
+            modelBuilder.Entity<PuestosTrabajo>(entity =>
+            {
+                entity.HasKey(e => e.IdPuesto)
+                    .HasName("PK__PuestosT__ADAC6B9C335B449B");
+
+                entity.Property(e => e.Descripcion).IsUnicode(false);
+
+                entity.Property(e => e.FechaPublicacion).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Requisitos).IsUnicode(false);
+
+                entity.Property(e => e.Titulo).IsUnicode(false);
+
+                entity.HasOne(d => d.Empresa)
+                    .WithMany(p => p.PuestosTrabajo)
+                    .HasForeignKey(d => d.IdEmpresa)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EMPRESA_ID");
+            });
+
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.UserName)
