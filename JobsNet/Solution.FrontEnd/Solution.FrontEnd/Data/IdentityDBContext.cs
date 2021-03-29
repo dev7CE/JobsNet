@@ -6,11 +6,9 @@ using System.Text;
 
 namespace Solution.FrontEnd.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class IdentityDBContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public IdentityDBContext(DbContextOptions<IdentityDBContext> options)
+            : base(options) { }
     }
 }
