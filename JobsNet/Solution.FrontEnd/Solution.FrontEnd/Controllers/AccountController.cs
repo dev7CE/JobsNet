@@ -31,6 +31,46 @@ namespace Solution.FrontEnd.Controllers
             _roleManager = roleManager;
         }
         //
+        // GET: /Account/Login
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+        //
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        {
+            model.RememberMe = true;
+            ViewData["ReturnUrl"] = returnUrl;
+            if (!ModelState.IsValid)
+            return View(model);
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Email, 
+                model.Password, 
+                model.RememberMe, 
+                lockoutOnFailure: false
+            );
+            if (result.Succeeded)
+            {
+                _logger.LogInformation(1, "Usuario inició sesión.");
+                return RedirectToLocal(returnUrl);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Intento inválido de inicio de sesión.");
+                return View(model);
+            }
+        }
+        //
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]

@@ -1,0 +1,47 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Authentication
+@model LoginViewModel
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    Layout = "~/Views/Shared/_AccountsLayout.cshtml";
+    ViewData["Title"] = "Iniciar Sesión";
+    string returnTo = (string)ViewData["ReturnUrl"];
+}
+<div class="az-signin-wrapper">
+    <div class="az-card-signin">
+        <h1 class="az-logo">jobsnet</h1>
+        <div class="az-signin-header">
+            <h2>¡Nos alegra tenerte de vuelta!</h2>
+            <h4>Por favor inicia sesión aquí</h4>
+            <form asp-controller="Account" asp-action="Login" 
+                asp-route-returnurl="@returnTo" method="post" 
+                role="form">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <input type="submit" value="Ingresar"
+                       class="btn btn-az-primary btn-block" />
+            </form>
+        </div><!-- az-signin-header -->
+        <div class="az-signin-footer">
+            <p>¿No tienes cuenta? <a asp-action="Register" asp-controller="Account" >Puedes crear una aquí</a></p>
+            <br />
+            <p>¿Te gustaría echar un vistazo sin registro o inicio de sesion, 
+                <a asp-action="Index" asp-controller="Oferente" > accede a lista de vacantes 
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </p>
+        </div><!-- az-signin-footer -->
+    </div><!-- az-card-signin -->
+</div><!-- az-signin-wrapper -->
