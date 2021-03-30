@@ -1,0 +1,81 @@
+﻿@model RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_AccountsLayout.cshtml";
+    ViewBag.Title = "Registrarse";
+}
+
+
+<div class="az-signup-wrapper">
+    <div class="az-column-signup-left">
+        <div>
+            <img src="~/img/register-story.svg" width="300" alt="Alternate Text" />
+            <h1 class="az-logo">JobsNet</h1>
+            <h5>Una plataforma para la empleabilidad</h5>
+            <p>Estamos ansiosos de que pruebes esta nueva experiencia en contratacion y empleabilidad.</p>
+            <p>Si eres oferente y quieres echar un vistazo, puedes 
+                <a asp-action="Index" asp-controller="Oferente">acceder a lista de vacantes sin registrarte
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </p>
+        </div>
+    </div><!-- az-column-signup-left -->
+    <div class="az-column-signup">
+        <h1 class="az-logo">JobsNet</h1>
+        <div class="az-signup-header">
+            <h2>Empieza ahora</h2>
+            <h4>Es gratis y solo te toma un minuto.</h4>
+            <form asp-action="Register">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @foreach (var role in (SelectList)ViewBag.Name)
+                    {
+                        <label class="rdiobox">
+                            @if (role.Value.Equals("Empleador"))
+                            {
+                                <input type="radio" asp-for="Role" value="@role.Value" checked/>
+                                <span>@role.Value</span>
+                            }
+                            else 
+                            {
+                                <input type="radio" asp-for="Role" value="@role.Value"/>
+                                <span>@role.Value</span>
+                            }
+                        </label>
+                    }
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <input type="submit" value="Crear Cuenta"
+                    class="btn btn-az-primary btn-block" />
+            </form>
+        </div><!-- az-signup-header -->
+        <div class="az-signup-footer">
+            <p>¿Ya tienes una cuenta? @Html.ActionLink("Iniciar Sesión", "Login", "Account")</p>
+        </div><!-- az-signin-footer -->
+    </div><!-- az-column-signup -->
+</div>
+
+<script>
+    $(function () {
+        'use strict'
+
+    });
+</script>
