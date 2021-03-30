@@ -33,7 +33,12 @@ namespace Solution.FrontEnd
                 options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<IdentityDBContext>();
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddMvcOptions(options => {
+                        options.MaxModelValidationErrors = 50;
+                        options.ModelBindingMessageProvider
+                            .SetValueMustNotBeNullAccessor(_ => "El campo no es valido.");
+                } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
