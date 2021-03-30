@@ -29,7 +29,8 @@ namespace Solution.FrontEnd
         {
             services.AddDbContext<IdentityDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>( options => 
+                options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<IdentityDBContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
