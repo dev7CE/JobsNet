@@ -126,7 +126,16 @@ namespace Solution.FrontEnd.Controllers
             _logger.LogInformation(3, "User created a new account with password.");
             return RedirectToLocal(returnUrl);
         }
-        
+        //
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
         #region Helpers
         private void AddErrors(IdentityResult result)
         {

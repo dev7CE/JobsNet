@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Solution.FrontEnd.Data;
+using Solution.FrontEnd.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace Solution.FrontEnd
                         options.ModelBindingMessageProvider
                             .SetValueMustNotBeNullAccessor(_ => "El campo no es valido.");
                 } );
+            services.AddTransient<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

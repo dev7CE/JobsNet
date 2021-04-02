@@ -1,0 +1,84 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{ 
+    string AnonymousPhotoName = "img/faces/anonymous.png"; 
+    string returnTo = (string)@ViewData["ReturnUrl"];
+}
+@inject UserService UserService
+
+@if (SignInManager.IsSignedIn(User))
+{
+    string controllerName, userRole, name;
+    controllerName = userRole = name = string.Empty;
+    string photoName = "/img/faces/";
+
+    if (User.IsInRole("Empleador"))
+    {
+        controllerName = "Empresa";
+        userRole = "Empleador";
+        photoName += "companydefault.png";
+        name = await UserService.NombreEmpresa(User.Identity.Name);
+    }
+    else
+    {
+        controllerName = "Oferente";
+        userRole = "Oferente";
+        photoName += "facedefault.png";
+        name = await UserService.NombreOferente(User.Identity.Name);
+       
+    }
+    //}
+    <div class="dropdown az-profile-menu">
+        <a href="" class="az-img-user"><img src="@photoName" alt="Prof"></a>
+        <div class="dropdown-menu">
+            <div class="az-dropdown-header d-sm-none">
+                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+            </div>
+            <div class="az-header-profile">
+                <div class="az-img-user">
+                    <img src="@photoName" alt="Prof">
+                </div><!-- az-img-user -->
+                <h6>
+                    <div class="trunq-200 tx-center-f">@name</div>
+                </h6>
+                <span>@userRole</span>
+            </div><!-- az-header-profile -->
+
+            <a asp-controller="Manage" asp-action="Index" class="dropdown-item isDisabled">
+                <i class="typcn typcn-user-outline"></i> 
+                Mi perfil
+            </a>
+            <a asp-controller="@controllerName" asp-action="Manage" class="dropdown-item isDisabled">
+                <i class="typcn typcn-edit"></i> 
+                Edita Perfil
+            </a>
+            <form asp-controller="Account" asp-action="LogOff" method="post" 
+                id="logoutForm" >
+                <button type="submit" class="dropdown-item">
+                    <i class="typcn typcn-power-outline"></i> Cerrar Sesion
+                </button>
+            </form>
+        </div><!-- dropdown-menu -->
+    </div>
+}
+else
+{
+    <div class="dropdown az-profile-menu">
+        <a href="" class="az-img-user"><img src="~/@AnonymousPhotoName" alt="im"></a>
+        <div class="dropdown-menu">
+            <div class="az-dropdown-header d-sm-none">
+                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+            </div>
+            <div class="az-header-profile">
+                <div class="az-img-user">
+                    <img src="~/@AnonymousPhotoName" alt="im">
+                </div><!-- az-img-user -->
+                <h6>Invitado</h6>
+            </div><!-- az-header-profile -->
+            <span>Únete a nuestra plataforma:</span>
+            <a asp-route-returnurl="@returnTo" asp-action="Login" asp-controller="Account" class="dropdown-item"><i class="typcn typcn-user-outline"></i> Iniciar Sesión</a>
+            <a asp-route-returnurl="@returnTo" asp-action="Register" asp-controller="Account" class="dropdown-item"><i class="typcn typcn-edit"></i> Registrarse</a>
+        </div><!-- dropdown-menu -->
+    </div>
+
+}
