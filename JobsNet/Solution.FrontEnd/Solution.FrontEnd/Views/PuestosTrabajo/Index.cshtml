@@ -2,8 +2,19 @@
 
 @{
     ViewData["Title"] = "Puestos de Trabajo Publicados";
+    var statusMessage = ViewData["StatusMessage"];
 }
-
+@if (statusMessage != null)
+{
+    if (!statusMessage.ToString().Equals(""))
+    {
+    <div class="alert alert-dismissible bg-purple text-white" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+        <i class="fa fa-info-circle"></i> Informacion: @ViewData["StatusMessage"]
+    </div>
+    }
+}
 @if (Model.Count() > 0)
 {
     <partial name="_IndexPartial" for="@Model" />
@@ -28,8 +39,8 @@ else
             <div><p>Qué esperas...</p></div>
         </div>
         <div class="d-flex flex-row justify-content-center ">
-            <a href=""
-               class="btn btn-default btn-az-primary text-uppercase isDisabled" data-toggle="tooltip"
+            <a asp-action="Create"
+               class="btn btn-default btn-az-primary text-uppercase" data-toggle="tooltip"
                data-placement="bottom" title="Crea un Puesto">
                 <i class="fas fa-plus"></i>  Crear Puesto
             </a>

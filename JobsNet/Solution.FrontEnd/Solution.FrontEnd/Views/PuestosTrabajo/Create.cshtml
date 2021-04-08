@@ -1,0 +1,98 @@
+@model PuestosTrabajo
+
+@{
+    ViewData["Title"] = "Añadir Vacante";
+}
+<style>
+    .breadcrumb-style1 {
+        border-radius: 0;
+        background-color: transparent;
+        padding: 0;
+    }
+</style>
+        
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1 mg-b-0">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" >
+                <i class="fas fa-angle-left"></i>
+                Volver a la lista
+            </a>
+        </li>
+    </ol>
+</nav>
+
+
+<hr class="mg-y-10">
+
+<h2>@ViewData["Title"]</h2>
+<div class="form-horizontal">
+    <form asp-action="Create" >
+        @Html.AntiForgeryToken()
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label tx-purple"></label>
+                <input asp-for="Titulo" class="form-control" placeholder="El nombre del puesto "/>
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label tx-purple"></label>
+                <textarea asp-for="Descripcion" class="form-control" placeholder="Brinda un breve descripción"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <label asp-for="Requisitos" class="control-label tx-purple"></label>
+                <textarea asp-for="Requisitos" class="form-control" placeholder="Criterios de aceptacion del candidato"></textarea>
+                <span asp-validation-for="Requisitos" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="form-group">
+                <label asp-for="FechaCierre" class="control-label tx-purple"></label>
+                <input  class="form-control" asp-for="FechaCierre" 
+                    id="datetimepicker" type="text" placeholder="DD/MM/YYYY"/>
+                <span asp-validation-for="FechaCierre" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label tx-purple font-italic">
+                    ** Campos Obligatorios
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear Puesto" class="btn btn-az-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+    <!--<script src="~/lib/parsleyjs/parsley.min.js"></script>-->
+    <script src="~/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+    <script>
+        $(function () {
+            'use strict'
+            $('#datetimepicker').appendDtpicker({
+                closeOnSelected: true,
+                onInit: function (handler) {
+                    var picker = handler.getPicker();
+                    $(picker).addClass('az-datetimepicker');
+                },
+                dateFormat: 'DD/MM/YYYY',
+                dateOnly: true,
+                futureOnly: true,
+                locale: "es",
+                firstDayOfWeek: 1
+            }).val('');
+        });
+    </script>
+}
