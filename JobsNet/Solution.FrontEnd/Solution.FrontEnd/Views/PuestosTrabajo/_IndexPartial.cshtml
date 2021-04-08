@@ -80,7 +80,8 @@
                                 <a asp-action="Edit" asp-route-id="@item.IdPuesto" class="dropdown-item">
                                     <i class="fas fa-edit"></i>Editar
                                 </a>
-                                <a href="" class="dropdown-item isDisabled">
+                                <a asp-controller="ListaOferentes" asp-action="Index" 
+                                    asp-route-idPuesto="@item.IdPuesto" class="dropdown-item">
                                     <i class="fas fa-th-list"></i>Ver oferentes
                                 </a>
                                 @if (isClosed)
