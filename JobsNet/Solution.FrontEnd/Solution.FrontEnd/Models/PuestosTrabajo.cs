@@ -26,6 +26,7 @@ namespace Solution.FrontEnd.Models
         [Display(Name = "Fecha de Publicación")]
         public DateTime? FechaPublicacion { get; set; }
         [Required (ErrorMessage = "Este campo es requerido")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Fecha de Cierre  **")]
         public DateTime FechaCierre { get; set; }
 

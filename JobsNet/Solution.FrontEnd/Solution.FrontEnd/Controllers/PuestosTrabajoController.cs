@@ -22,6 +22,7 @@ namespace Solution.FrontEnd.Controllers
         {
             ViewData["StatusMessage"] =
                 message == ControllerMessageId.AddPuestoTrabajoSuccess ? "Se ha agregado el puesto."
+                : message == ControllerMessageId.UpdatePuestoTrabajoSuccess ? "Se ha actualzado el puesto."
                 : message == ControllerMessageId.Error ? "Ha ocurrido un error."
                 : "";
 
@@ -67,6 +68,39 @@ namespace Solution.FrontEnd.Controllers
                 return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
             }
             return View(puestosTrabajo);
+        }
+        //
+        // GET: PuestosTrabajo/Edit/5
+        public async Task<IActionResult> Edit(int? id = 0)
+        {
+            if (id == null && id <= 0)
+            return NotFound();
+            
+            var puestosTrabajo = await GetPuestoTrabajo((int)id);
+            
+            if (puestosTrabajo == null)
+            return NotFound();
+
+            return View(puestosTrabajo);
+        }
+        //
+        // POST: PuestosTrabajo/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("IdPuesto,IdEmpresa,Titulo,Descripcion,Requisitos,FechaPublicacion,FechaCierre")] PuestosTrabajo puestosTrabajo)
+        {
+            if (id != puestosTrabajo.IdPuesto)    
+            return NotFound();
+
+            if (!ModelState.IsValid)
+            return View(puestosTrabajo);
+            
+            if (await UpdatePuesto(id, puestosTrabajo))
+            return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.UpdatePuestoTrabajoSuccess });
+            
+            return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
         }
         #region Helpers
         private IEnumerable<data.PuestosTrabajo> GetByUserName (IEnumerable<data.PuestosTrabajo> list)
@@ -126,9 +160,50 @@ namespace Solution.FrontEnd.Controllers
                 return res.IsSuccessStatusCode;
             }
         }
+        private async Task<data.PuestosTrabajo> GetPuestoTrabajo (int id)
+        {
+            data.PuestosTrabajo aux = new data.PuestosTrabajo();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/PuestosTrabajo/"+id);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    aux = JsonConvert.DeserializeObject<data.PuestosTrabajo>(auxres);
+                }
+            }
+            return aux;            
+        }
+        private async Task<bool> UpdatePuesto(int id, data.PuestosTrabajo model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PutAsync("api/PuestosTrabajo/"+id, requestContent);
+                return res.IsSuccessStatusCode;
+            }
+        }
         public enum ControllerMessageId
         {
             AddPuestoTrabajoSuccess,
+            UpdatePuestoTrabajoSuccess,
             Error
         }
         #endregion
