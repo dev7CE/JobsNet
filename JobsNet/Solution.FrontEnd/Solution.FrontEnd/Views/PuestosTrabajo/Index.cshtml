@@ -1,0 +1,38 @@
+@model IEnumerable<Solution.FrontEnd.Models.PuestosTrabajo>
+
+@{
+    ViewData["Title"] = "Puestos de Trabajo Publicados";
+}
+
+@if (Model.Count() > 0)
+{
+    <partial name="_IndexPartial" for="@Model" />
+}
+else
+{
+    <div class="az-error-wrapper justify-content-end">
+        <div class="d-flex flex-row justify-content-center ">
+            <div>
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center ">
+            <div>
+                <img height="250" src="~/img/hiring-story.svg" />
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center ">
+            <div><h5>Por el momento no tienes puestos de trabajo publicados</h5></div>
+        </div>
+        <div class="d-flex flex-row justify-content-center ">
+            <div><p>Qué esperas...</p></div>
+        </div>
+        <div class="d-flex flex-row justify-content-center ">
+            <a href=""
+               class="btn btn-default btn-az-primary text-uppercase isDisabled" data-toggle="tooltip"
+               data-placement="bottom" title="Crea un Puesto">
+                <i class="fas fa-plus"></i>  Crear Puesto
+            </a>
+        </div>
+    </div>
+}

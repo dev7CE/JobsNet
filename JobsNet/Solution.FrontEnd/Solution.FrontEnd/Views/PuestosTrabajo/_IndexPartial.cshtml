@@ -1,0 +1,107 @@
+@model IEnumerable<Solution.FrontEnd.Models.PuestosTrabajo>
+
+<div class="row no-gutters justify-content-between">
+    <div class="col-6">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col-6 justify-content-end">
+        <div class="row no-gutters justify-content-end">
+            <div class="col-auto ">
+                <a href=""
+                   class="btn btn-default btn-az-primary text-uppercase isDisabled" 
+                   data-toggle="tooltip"
+                   data-placement="bottom" title="Crea un Puesto">
+                    <i class="fas fa-plus"></i>  Crear Puesto
+                </a>
+            </div>
+            <div class="col-auto align-content-end">
+                <!--<button></button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="pt-2 pb-2 text-white bg-primary" >
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                
+                <th class="pt-2 pb-2">
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th class="pt-2 pb-2">
+                    @Html.DisplayNameFor(model => model.FechaPublicacion)
+                </th>
+                <th class="pt-2 pb-2">
+                    @Html.DisplayNameFor(model => model.FechaCierre)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                bool isClosed = (item.FechaCierre < DateTime.Now.Date) ? true : false;
+                string trDisabledClasses = (isClosed) ? "table-secondary text-muted": string.Empty;
+                string aDisabledClasses = (isClosed) ? "text-muted": string.Empty;
+                
+                <tr class="@trDisabledClasses">
+                    <td class="align-middle" >
+                        <a asp-controller="ListaOferentes" asp-action="Index" 
+                            asp-route-idPuesto="@item.IdPuesto"
+                            class="@aDisabledClasses tx-bold">
+                            @item.Titulo
+                        </a>
+                    </td>
+                    
+                    <td class="align-middle">
+                        <div class="trunq-280">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        @Html.ValueFor(modelItem => item.FechaPublicacion, "{0:d MMMM, yyyy}")
+                    </td>
+                    <td class="align-middle">
+                        @Html.ValueFor(modelItem => item.FechaCierre, "{0:d MMMM, yyyy}")
+                    </td>
+                    <td class="align-middle">
+                        <div class="btn-group dropleft">
+                            <button type="button"
+                                    class="btn btn-default dropdown-toggle tx-3 px-3 border-0 no-padding"
+                                    data-toggle="dropdown"
+                                    aria-labelledby="dropleftMenuButton"
+                                    style="border: 0; padding: 2px;">
+                                <img width="12" src="~/img/menu.svg" />
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <a href="" class="dropdown-item isDisabled">
+                                    <i class="fas fa-edit"></i>Editar
+                                </a>
+                                <a href="" class="dropdown-item isDisabled">
+                                    <i class="fas fa-th-list"></i>Ver oferentes
+                                </a>
+                                @if (isClosed)
+                                {
+                                    <span class="dropdown-item disabled bg-danger text-white op-5-f">
+                                        <i class="fas fa-stop-circle"></i>Finalizado
+                                    </span>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Empresa" asp-action="StopReceptions" method="post" >
+                                        <button class="dropdown-item isDisabled" type="submit">
+                                            <i class="far fa-stop-circle"></i>Finalizar Recepciones
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
