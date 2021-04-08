@@ -91,8 +91,9 @@
                                 }
                                 else
                                 {
-                                    <form asp-controller="Empresa" asp-action="StopReceptions" method="post" >
-                                        <button class="dropdown-item isDisabled" type="submit">
+                                    <form asp-action="StopReceptions" method="post"
+                                        asp-route-id="@item.IdPuesto" >
+                                        <button class="dropdown-item" type="submit">
                                             <i class="far fa-stop-circle"></i>Finalizar Recepciones
                                         </button>
                                     </form>

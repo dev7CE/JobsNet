@@ -22,7 +22,7 @@ namespace Solution.FrontEnd.Controllers
         {
             ViewData["StatusMessage"] =
                 message == ControllerMessageId.AddPuestoTrabajoSuccess ? "Se ha agregado el puesto."
-                : message == ControllerMessageId.UpdatePuestoTrabajoSuccess ? "Se ha actualzado el puesto."
+                : message == ControllerMessageId.UpdatePuestoTrabajoSuccess ? "Se ha actualizado el puesto."
                 : message == ControllerMessageId.Error ? "Ha ocurrido un error."
                 : "";
 
@@ -98,6 +98,26 @@ namespace Solution.FrontEnd.Controllers
             return View(puestosTrabajo);
             
             if (await UpdatePuesto(id, puestosTrabajo))
+            return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.UpdatePuestoTrabajoSuccess });
+            
+            return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
+        }
+        //
+        // POST: PuestosTrabajo/StopReceptions/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> StopReceptions(int id)
+        {
+            data.PuestosTrabajo puestoTrabajo = await GetPuestoTrabajo(id); 
+            if (puestoTrabajo == null)    
+            return NotFound();
+
+            // Update Receptions End Date
+            puestoTrabajo.FechaCierre = System.DateTime.Now.AddDays(-1).Date;
+
+            if (await UpdatePuesto(id, puestoTrabajo))
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.UpdatePuestoTrabajoSuccess });
             
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
