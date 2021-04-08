@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using data = Solution.FrontEnd.Models;
+using System.Text;
 
 namespace Solution.FrontEnd.Controllers
 {
@@ -15,12 +16,35 @@ namespace Solution.FrontEnd.Controllers
         public ListaOferentesController() { }
         //
         // GET: ListaOferentes/Index/5
-        public async Task<IActionResult> Index(int idPuesto)
+        public async Task<IActionResult> Index(int idPuesto, ControllerMessageId? message = null)
         {
+            ViewData["StatusMessage"] = 
+                message == ControllerMessageId.UpdateItemOferenteSuccess ? "Se ha actualizado el estado del candidato."
+                : message == ControllerMessageId.Error ? "Ha ocurrido un error con la solicitud."
+                : "";
+
             ViewData["puesto"] = await GetPuesto(idPuesto); 
             return View(await GetByPuesto(idPuesto));
         }
+        //
+        //// POST: ListaOferentes/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetDiscart(int idOferente, int idPuesto)
+        {
+            data.ListaOferentes oferente = await GetItemListaOferentes(idOferente, idPuesto);
+            if (oferente == null)
+            return NotFound();
+            
+            oferente.Descartado = !oferente.Descartado;
 
+            if(await UpdateItemListaOferentes(idOferente, idPuesto, oferente))
+            return RedirectToAction(nameof(Index), new { idPuesto = idPuesto, Message = ControllerMessageId.UpdateItemOferenteSuccess });
+
+            return View();
+        }
         #region Helpers
         private async Task<IEnumerable<data.ListaOferentes>> GetByPuesto(int idPuesto)
         {
@@ -64,6 +88,51 @@ namespace Solution.FrontEnd.Controllers
             }
 
             return puesto;
+        }
+        private async Task<data.ListaOferentes> GetItemListaOferentes(int idOferente, int idPuesto)
+        {
+            data.ListaOferentes aux = new data.ListaOferentes();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto);
+        
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    aux = JsonConvert.DeserializeObject<data.ListaOferentes>(auxres);
+                }
+            }
+            return aux;
+        }
+        private async Task<bool> UpdateItemListaOferentes(int idOferente, int idPuesto, data.ListaOferentes model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PutAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto, requestContent);
+                return res.IsSuccessStatusCode;
+            }
+        }
+        public enum ControllerMessageId
+        {
+            UpdateItemOferenteSuccess,
+            Error
         }
         #endregion
     }

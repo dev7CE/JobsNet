@@ -32,6 +32,8 @@
         string trDisabledClasses = (discarted) ? "table-secondary text-muted": string.Empty;
         string aDisabledClasses = (discarted) ? "text-muted": string.Empty;
         string imgDisabledClasses = (discarted) ? "table-secondary text-muted op-6-f": string.Empty;
+        string htmlDiscartButtonValue =  (discarted) ? "Deshacer Descarte" : "Descartar" ;
+        string iconDiscartClassValue =  (discarted) ? "fa-undo" : "fa-user-alt-slash" ;
         var oferente = item.Oferente;
 
         <tr class="@trDisabledClasses">
@@ -69,10 +71,14 @@
                         <span class="dropdown-item isDisabled">
                             <i class="fas fa-external-link-square-alt"></i>Ver curriculo
                         </span>
-                        <button  
-                            class="dropdown-item btn btn-default isDisabled">
-                            <i class="fas fa-user-alt-slash"></i>Descartar
-                        </button>
+                        <form asp-action="SetDiscart" 
+                            asp-route-idOferente="@item.IdOferente"
+                            asp-route-idPuesto="@item.IdPuesto"> 
+                            <button  type="submit"
+                                class="dropdown-item btn btn-default">
+                                <i class="fas @iconDiscartClassValue"></i>@htmlDiscartButtonValue
+                            </button>
+                        </form>
                     </div>
                 </div>
             </td>

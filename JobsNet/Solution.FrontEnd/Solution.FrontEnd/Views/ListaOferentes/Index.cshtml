@@ -4,6 +4,18 @@
     ViewBag.H2 = "Detalles de la Vacante";
     ViewBag.PartialViewTitle = "Quiénes se han postulado";
     PuestosTrabajo puesto = (PuestosTrabajo) ViewData["puesto"];
+    var statusMessage = ViewData["StatusMessage"];
+}
+@if (statusMessage != null)
+{
+    if (!statusMessage.ToString().Equals(""))
+    {
+    <div class="alert alert-dismissible bg-purple text-white" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+        <i class="fa fa-info-circle"></i> Informacion: @ViewData["StatusMessage"]
+    </div>
+    }
 }
 
 <nav aria-label="breadcrumb">
