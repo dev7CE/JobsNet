@@ -1,0 +1,27 @@
+@model IEnumerable<ListaOferentes>
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.H2 = "Detalles de la Vacante";
+    ViewBag.PartialViewTitle = "Quiénes se han postulado";
+    PuestosTrabajo puesto = (PuestosTrabajo) ViewData["puesto"];
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1 mg-b-0">
+        <li class="breadcrumb-item">
+            <a asp-controller="PuestosTrabajo" asp-action="Index">
+                <i class="fas fa-angle-left"></i>
+                Volver a la lista
+            </a>
+        </li>
+    </ol>
+</nav>
+
+<hr class="mg-y-10">
+
+<h2>@ViewBag.H2</h2>
+<div>
+    <partial name="_IndexPartialPuesto" for="@puesto" />
+</div>
+
+<partial name="_IndexPartialListaOferentes" for="@Model" />

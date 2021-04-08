@@ -1,0 +1,83 @@
+@model IEnumerable<ListaOferentes>
+
+<!--<h4 class="mb-1">@ViewBag.PartialViewTitle</h4>-->
+<hr class="mg-y-10">
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="pt-2 pb-2 text-white bg-primary"></th>
+            <th class="pt-2 pb-2 text-white bg-primary">
+                @Html.DisplayNameFor(model => model.Oferente.Nombre)
+            </th>
+            <th class="pt-2 pb-2">
+                @Html.DisplayNameFor(model => model.Oferente.Apellido1)
+            </th>
+            <th class="pt-2 pb-2">
+                @Html.DisplayNameFor(model => model.Oferente.Apellido2)
+            </th>
+            <th class="pt-2 pb-2">
+                @Html.DisplayNameFor(model => model.Oferente.Telefono)
+            </th>
+            <th class="pt-2 pb-2">
+                @Html.DisplayNameFor(model => model.Oferente.UserName)
+            </th>
+            <th class="pt-2 pb-2"></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.OrderBy(li => li.Descartado))
+    {
+        bool discarted = (item.Descartado == true) ? true : false;
+        string trDisabledClasses = (discarted) ? "table-secondary text-muted": string.Empty;
+        string aDisabledClasses = (discarted) ? "text-muted": string.Empty;
+        string imgDisabledClasses = (discarted) ? "table-secondary text-muted op-6-f": string.Empty;
+        var oferente = item.Oferente;
+
+        <tr class="@trDisabledClasses">
+            <td>
+                <div class="az-img-user @imgDisabledClasses">
+                    <img src="~/img/faces/@oferente.UrlFoto" 
+                        class="rounded-circle" alt="phto">
+                </div>
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => oferente.Nombre)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => oferente.Apellido1)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => oferente.Apellido2)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => oferente.Telefono)
+            </td>
+            <td class="align-middle">
+                @Html.DisplayFor(modelItem => oferente.UserName)
+            </td>
+            <td class="align-middle">
+                <div class="btn-group dropleft">
+                    <button type="button"
+                            class="btn btn-default dropdown-toggle tx-3 px-3 border-0 no-padding"
+                            data-toggle="dropdown"
+                            aria-labelledby="dropleftMenuButton"
+                            style="border: 0; padding: 2px;">
+                        <img width="12" src="~/img/menu.svg" />
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                        <span class="dropdown-item isDisabled">
+                            <i class="fas fa-external-link-square-alt"></i>Ver curriculo
+                        </span>
+                        <button  
+                            class="dropdown-item btn btn-default isDisabled">
+                            <i class="fas fa-user-alt-slash"></i>Descartar
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+        
+    </tbody>
+</table>

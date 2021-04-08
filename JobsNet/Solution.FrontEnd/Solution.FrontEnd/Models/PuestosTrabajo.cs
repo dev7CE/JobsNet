@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,6 +9,7 @@ namespace Solution.FrontEnd.Models
     {
         public PuestosTrabajo()
         {
+            ListaOferentes = new HashSet<ListaOferentes>();
         }
 
         public int IdPuesto { get; set; }
@@ -28,5 +29,6 @@ namespace Solution.FrontEnd.Models
         public DateTime FechaCierre { get; set; }
 
         public virtual Empresas Empresa { get; set; }
+        public virtual ICollection<ListaOferentes> ListaOferentes { get; set; }
     }
 }

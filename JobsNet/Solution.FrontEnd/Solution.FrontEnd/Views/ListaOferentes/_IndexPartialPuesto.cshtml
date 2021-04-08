@@ -1,0 +1,13 @@
+@model PuestosTrabajo
+
+<hr class="m-0 mb-4"/>
+<dl class="dl-horizontal">
+    <dt>Publicado el:</dt>
+    <dd>@Html.ValueFor(model => model.FechaPublicacion, "{0:d MMMM, yyyy}")</dd>
+    <dt>Descripcion del puesto:</dt>
+    <dd>@Html.Raw(Model.Descripcion.Replace("\n", "<br />"))</dd>
+    <dt>¿Cuáles son los requisitos para este puesto?</dt>
+    <dd>@Html.Raw(Model.Requisitos.Replace("\n", "<br />")) </dd>
+    <dt>Se reciben solicitudes hasta el:</dt>
+    <dd>@Html.ValueFor(model => model.FechaCierre, "{0:d MMMM, yyyy}")</dd>
+</dl>
