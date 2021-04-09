@@ -1,5 +1,37 @@
 @model PuestosTrabajo
-
+<div class="row no-gutters justify-content-between">
+    <div class="col-md-6 col-sm-12">
+        <h4 class="tx-indigo">@Html.DisplayFor(model => model.Titulo)</h4>
+    </div>
+    <div class="col-md-6 col-sm-12 justify-content-end">
+        <div class="row no-gutters justify-content-end">
+            <div class="col-auto ">
+                <a asp-controller="PuestosTrabajo" asp-action="Edit" asp-route-id="@Model.IdPuesto"
+                    class="btn btn-default btn-az-primary" data-toggle="tooltip" 
+                    data-placement="bottom" title="Editar el puesto">
+                    <i class="fas fa-edit"></i> Editar este puesto
+                </a>
+            </div>
+            <div class="col-auto align-content-end">
+                @if(Model.FechaCierre >= System.DateTime.Now.Date)
+                {
+                    <form asp-controller="PuestosTrabajo" asp-action="StopReceptions" method="post"
+                        asp-route-id="@Model.IdPuesto" >
+                        <button class="btn btn-az-secondary" type="submit">
+                            <i class="far fa-stop-circle"></i> Finalizar Recepciones
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button disabled class="btn btn-az-secondary disabled text-white op-5-f">
+                        <i class="fas fa-stop-circle"></i> Finalizado
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 <hr class="m-0 mb-4"/>
 <dl class="dl-horizontal">
     <dt>Publicado el:</dt>
