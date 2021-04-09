@@ -61,6 +61,10 @@ namespace Solution.FrontEnd.Controllers
             );
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if(await _userManager.IsInRoleAsync(user, RoleNames.ROLE_EMPLEADOR))
+                return RedirectToAction("Index", "PuestosTrabajo",null);
+                
                 _logger.LogInformation(1, "Usuario inició sesión.");
                 return RedirectToLocal(returnUrl);
             }
