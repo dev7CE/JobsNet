@@ -35,3 +35,11 @@
   background-color: transparent;
   padding: 0;
 }
+.hover:hover{
+  background-color: var(--light);
+}
+.hover:hover a {
+  text-decoration: underline;
+  color: var(--blue)!important;
+  transition: color .3s;
+}
