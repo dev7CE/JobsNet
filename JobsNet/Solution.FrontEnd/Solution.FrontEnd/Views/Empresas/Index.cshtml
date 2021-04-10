@@ -1,0 +1,63 @@
+﻿@model Empresas
+@{
+    ViewData["Title"] = "Perfil";
+}
+<partial name="_IndexEmpresasOferentesPartial" view-data="@ViewData" />
+<div class="az-profile-overview">
+    <div class="az-img-user">
+        <img src="~/img/faces/companydefault.png" alt="pp">
+    </div><!-- az-img-user -->
+    <div class="d-flex justify-content-between mg-b-20">
+        <div>
+            <h5 class="az-profile-name">@Model.NombreEmpresa </h5>
+            <p class="az-profile-name-text">Empresa</p>
+        </div>
+    </div>
+
+    <div class="az-profile-bio">
+        @Model.Descripcion
+    </div><!-- az-profile-bio -->
+
+</div>
+<div class="row">
+    <div class="col-md-5 col-xl-4 mg-t-40 mg-md-t-0">
+        <div class="az-content-label tx-13 mg-b-25">Información de Contacto</div>
+        <div class="az-profile-contact-list">
+            <div class="media">
+                <div class="media-icon"><i class="icon ion-md-phone-portrait"></i></div>
+                <div class="media-body">
+                    <span>Telefono</span>
+                    @if (!string.IsNullOrEmpty(Model.Telefono))
+                    {
+                        <div>@Model.Telefono</div>
+                    }
+                    else
+                    {
+                        <div>Aun no especificado</div>
+                    }
+                </div><!-- media-body -->
+            </div><!-- media -->
+            <div class="media">
+                <div class="media-icon"><i class="icon ion-md-at"></i></div>
+                <div class="media-body">
+                    <span>Correo electrónico</span>
+                    <div>@Model.UserName</div>
+                </div><!-- media-body -->
+            </div><!-- media -->
+            <div class="media">
+                <div class="media-icon"><i class="icon ion-md-locate"></i></div>
+                <div class="media-body">
+                    <span>Ubicacion</span>
+                    @if (Model.IdCanton.HasValue)
+                    {
+                        <div>@Model.Canton.NombreCanton, @Model.Canton.Provincia.NombreProvincia</div>
+                    }
+                    else
+                    {
+                        <div>No hay ubicación establecida</div>
+                    }
+                </div><!-- media-body -->
+            </div><!-- media -->
+        </div><!-- az-profile-contact-list -->
+    </div><!-- col -->
+</div>

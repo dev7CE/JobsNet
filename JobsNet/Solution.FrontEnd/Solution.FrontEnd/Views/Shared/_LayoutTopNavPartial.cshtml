@@ -1,12 +1,27 @@
-﻿<ul class="nav">
-    <li class="nav-item active">
-        <a href="#" class="nav-link">
+﻿@{
+    string controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    bool isNotInMain = (controllerName.Equals("Empresas") || controllerName.Equals("Oferentes")) ? true : false;
+    string mainNavLinkClass = (isNotInMain)? string.Empty : "active";
+    string profileNavLinkClass = (isNotInMain)? "active" : string.Empty;
+    string MainActionLink = (User.IsInRole(RoleNames.ROLE_EMPLEADOR)) ? "Index" : "All";
+    string MainControllerLink = "PuestosTrabajo";
+}
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+<ul class="nav">
+    <li class="nav-item @mainNavLinkClass">
+        <a asp-controller="@MainControllerLink" asp-action="@MainActionLink" class="nav-link">
             <i class="typcn typcn-briefcase"></i> Principal
         </a>
     </li>
-    <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="typcn typcn-user"></i> Perfil
-        </a>
-    </li>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        string role = (User.IsInRole(RoleNames.ROLE_EMPLEADOR)) ? "Empresas" : String.Empty;
+        role = (User.IsInRole(RoleNames.ROLE_OFERENTE)) ? "Oferentes" : role;
+        <li class="nav-item @profileNavLinkClass">
+            <a asp-controller="@role" asp-action="Index" class="nav-link">
+                <i class="typcn typcn-user"></i> Perfil
+            </a>
+        </li>
+    }
 </ul>
