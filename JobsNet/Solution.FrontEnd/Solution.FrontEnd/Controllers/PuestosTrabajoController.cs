@@ -149,6 +149,9 @@ namespace Solution.FrontEnd.Controllers
         // GET: PuestosTrabajo/Details/5
         public async Task<IActionResult> Details(int? id, ControllerMessageId? message = null)
         {
+            ViewData["StatusMessage"] =
+                message == ControllerMessageId.PostulateOferenteSuccess ? "Te has postulado a esta oferta."
+                : "";
 
             if (id == null)
             return NotFound();
@@ -262,6 +265,7 @@ namespace Solution.FrontEnd.Controllers
         {
             AddPuestoTrabajoSuccess,
             UpdatePuestoTrabajoSuccess,
+            PostulateOferenteSuccess,
             Error
         }
         #endregion

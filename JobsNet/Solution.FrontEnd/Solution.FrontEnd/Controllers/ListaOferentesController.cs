@@ -45,6 +45,24 @@ namespace Solution.FrontEnd.Controllers
 
             return View();
         }
+        // 
+        // POST: ListaOferentes/Submit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Submit (int idOferente, int idPuesto)
+        {
+            //data.ListaOferentes oferente =  await GetItemListaOferentes(idOferente, idPuesto);
+            //if (oferente == null)
+            if(await InsertItemListaOferentes(new data.ListaOferentes 
+            {
+                IdOferente = idOferente, 
+                IdPuesto = idPuesto
+            }))
+            return RedirectToAction("Details", "PuestosTrabajo", new { id = idPuesto, Message = ControllerMessageId.PostulateOferenteSuccess });
+            
+            return RedirectToAction("Details", "PuestosTrabajo",new { id = idPuesto, Message = ControllerMessageId.Error });
+
+        }
         #region Helpers
         private async Task<IEnumerable<data.ListaOferentes>> GetByPuesto(int idPuesto)
         {
@@ -129,9 +147,30 @@ namespace Solution.FrontEnd.Controllers
                 return res.IsSuccessStatusCode;
             }
         }
+        private async Task<bool> InsertItemListaOferentes(data.ListaOferentes model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PostAsync("api/ListaOferentes", requestContent);
+                return res.IsSuccessStatusCode;
+            }
+        }
         public enum ControllerMessageId
         {
             UpdateItemOferenteSuccess,
+            PostulateOferenteSuccess,
             Error
         }
         #endregion

@@ -53,7 +53,44 @@ namespace Solution.FrontEnd.Models
             }
             return BuildName(aux, userName);
         }
+        public async Task<data.Oferentes> GetOferenteByUserName (string userName)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/Oferentes");
         
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<IEnumerable<data.Oferentes>>(auxres)
+                        .SingleOrDefault(o => o.UserName.Equals(userName));
+                }
+                return null;
+            }
+        }
+        public async Task<bool> AlreadyApplied(int idOferente, int idPuesto)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .GetAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto);
+
+                if (res.IsSuccessStatusCode)
+                return true;
+
+                return false;
+            }
+        }
         #region Helpers
         private string BuildName(List<data.Oferentes> oferentes, string userName)
         {

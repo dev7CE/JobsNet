@@ -2,7 +2,39 @@
 @inject UserService UserService
 @{
     ViewBag.Title = "Detalles de la Vacante";
+    var statusMessage = ViewData["StatusMessage"];
 
+    Oferentes oferente = await UserService.GetOferenteByUserName(User.Identity.Name);
+
+    bool isOutOfTime = Model.FechaCierre.Date < DateTime.Now.Date;
+    bool isOferente = oferente != null;
+    bool alreadyApplied = false;
+    if(isOferente)
+    {
+        alreadyApplied = await UserService.AlreadyApplied(oferente.IdOferente, Model.IdPuesto);
+    }
+    string classButtonSubmit = "btn-warning" ;
+    string htmlButtonSubmitContent = "Ya no se permite recepciones";
+    string buttonDisableAttribute = "disabled";
+    if (!isOutOfTime)
+    {
+        buttonDisableAttribute = (alreadyApplied) ? buttonDisableAttribute : string.Empty;
+        classButtonSubmit = "btn-primary" ;
+        classButtonSubmit = (alreadyApplied) ? classButtonSubmit : "btn-primary";
+        htmlButtonSubmitContent = "Aplicar";
+        htmlButtonSubmitContent = (alreadyApplied) ? "Postulado" : htmlButtonSubmitContent;
+    }
+}
+@if (statusMessage != null)
+{
+    if (!statusMessage.ToString().Equals(""))
+    {
+    <div class="alert alert-dismissible bg-purple text-white" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+        <i class="fa fa-info-circle"></i> Informacion: @ViewData["StatusMessage"]
+    </div>
+    }
 }
 
 <nav aria-label="breadcrumb">
@@ -30,7 +62,28 @@
         <div class="col-4 justify-content-end">
             <div class="row no-gutters justify-content-end">
                 <div class="col-auto align-content-end">
-                    <!-- (Oferente) Boton 'Postularme' -->
+                    @if (!isOutOfTime && !alreadyApplied && isOferente)
+                    {
+                        <form asp-controller="ListaOferentes" asp-action="Submit" id="form-submit" 
+                            asp-route-idOferente="@oferente.IdOferente" 
+                            asp-route-idPuesto="@Model.IdPuesto" >
+                        </form>
+                    }
+                    @if(User.Identity.IsAuthenticated && isOferente)
+                    {
+                        <button type="submit" class="btn @classButtonSubmit" 
+                            form="form-submit" @buttonDisableAttribute >
+                            <i class="fas fa-file-upload"></i> @htmlButtonSubmitContent 
+                        </button>
+                    }
+                    else
+                    {
+                        <a  asp-controller="Account" asp-action="Login"
+                            class="@buttonDisableAttribute btn btn-primary" >
+                            <i class="fas fa-file-upload"></i> 
+                            @htmlButtonSubmitContent
+                        </a>
+                    }
                 </div>
             </div>
         </div>
