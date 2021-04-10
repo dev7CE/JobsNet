@@ -1,0 +1,43 @@
+@model IEnumerable<PuestosTrabajo>
+
+@{
+    ViewData["Title"] = "Trabajos Publicados";
+}
+
+<h2 class="tx-indigo">@ViewBag.Title</h2>
+
+<div class="row row-sm">
+    @foreach (var item in Model
+        .Where(p => p.FechaCierre >= System.DateTime.Now.Date)
+        .OrderByDescending(p=>p.FechaPublicacion)
+    )
+    {
+        var itemEmpresaEntity = item.Empresa;
+        var itemEmpresaECanton = itemEmpresaEntity.Canton;
+        <div class="col-sm-12 mg-b-10">
+            <div class="row no-gutters">
+                <div class="bd bd-r-0 d-none d-md-block col-12 col-md-auto box" style="width:151px;">
+                    <img style="height:151px;"
+                         src="~/img/faces/companydefault.png" alt="E-Logo" />
+                </div>
+                <div class="card col-12 col-md hover">
+                    <div class="card-body">
+                        <h5 class="card-title truncated-text">
+                            <!-- stretched-link -->
+                            <a 
+                               class="stretched-link text-secondary">
+                               @Html.DisplayFor(modelItem => item.Titulo)</a>
+                        </h5>
+                        <h6 class="card-subtitle">@itemEmpresaEntity.NombreEmpresa</h6>
+                        <!-- Ubicacion de la empresa debería ir aquí -->
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <p class="card-text">
+                            <small class="text-muted"><i class="far fa-clock"></i> @Html.ValueFor(modelItem => item.FechaPublicacion, "{0:d MMMM, yyyy}") </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+     }
+</div>

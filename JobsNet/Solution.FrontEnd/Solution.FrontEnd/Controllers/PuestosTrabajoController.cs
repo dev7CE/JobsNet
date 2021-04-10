@@ -122,6 +122,29 @@ namespace Solution.FrontEnd.Controllers
             
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
         }
+        // Oferentes
+        //
+        // GET: PuestosTrabajo/All
+        public async Task<IActionResult> All()
+        {
+            List<data.PuestosTrabajo> aux = new List<data.PuestosTrabajo>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/PuestosTrabajo");
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    aux = JsonConvert.DeserializeObject<List<data.PuestosTrabajo>>(auxres);
+                }
+            }
+            return View(aux);
+        }
         #region Helpers
         private IEnumerable<data.PuestosTrabajo> GetByUserName (IEnumerable<data.PuestosTrabajo> list)
         {
