@@ -43,3 +43,6 @@
   color: var(--blue)!important;
   transition: color .3s;
 }
+.no-outline-color{
+  outline-color: transparent!important;
+}
