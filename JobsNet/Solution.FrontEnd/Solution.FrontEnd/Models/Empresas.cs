@@ -25,7 +25,7 @@ namespace Solution.FrontEnd.Models
         [StringLength(256)]
         public string UserName { get; set; }
 
-        //public virtual Cantones Canton { get; set; }
+        public virtual Cantones Canton { get; set; }
         public virtual Usuarios Usuario { get; set; }
         //public virtual ICollection<PuestosTrabajo> PuestosTrabajo { get; set; }
     }
