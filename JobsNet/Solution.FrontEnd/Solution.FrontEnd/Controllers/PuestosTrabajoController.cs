@@ -145,6 +145,21 @@ namespace Solution.FrontEnd.Controllers
             }
             return View(aux);
         }
+        //
+        // GET: PuestosTrabajo/Details/5
+        public async Task<IActionResult> Details(int? id, ControllerMessageId? message = null)
+        {
+
+            if (id == null)
+            return NotFound();
+
+            data.PuestosTrabajo puestoTrabajo = await GetPuestoTrabajo((int) id);
+
+            if (puestoTrabajo == null)
+            return NotFound();
+
+            return View(puestoTrabajo);
+        }
         #region Helpers
         private IEnumerable<data.PuestosTrabajo> GetByUserName (IEnumerable<data.PuestosTrabajo> list)
         {

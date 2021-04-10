@@ -1,0 +1,70 @@
+@model PuestosTrabajo
+@inject UserService UserService
+@{
+    ViewBag.Title = "Detalles de la Vacante";
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1 mg-b-0">
+        <li class="breadcrumb-item">
+            <a asp-action="All">
+                <i class="fas fa-angle-left"></i>
+                Volver a la lista
+            </a>
+        </li>
+    </ol>
+</nav>
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+
+    <div class="row no-gutters justify-content-between">
+        <div class="col-8">
+            <h4 class="tx-indigo">@Html.DisplayFor(model => model.Titulo)</h4>
+            <a href="" class="isDisabled">
+                @Model.Empresa.NombreEmpresa
+            </a>
+        </div>
+        <div class="col-4 justify-content-end">
+            <div class="row no-gutters justify-content-end">
+                <div class="col-auto align-content-end">
+                    <!-- (Oferente) Boton 'Postularme' -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 mb-4" />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Publicado el @Html.ValueFor(model => model.FechaPublicacion, "{0:d MMMM, yyyy}")
+        </dt>
+
+        <dt>
+            Descripcion del puesto:
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Descripcion.Replace("\n", "<br />"))
+        </dd>
+
+        <dt>
+            ¿Cuáles son los requisitos para este puesto?
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Requisitos.Replace("\n", "<br />"))
+        </dd>
+
+        <dt>
+            Se reciben solicitudes hasta el:
+        </dt>
+
+        <dd>
+            @Html.ValueFor(model => model.FechaCierre, "{0:d MMMM, yyyy}")
+        </dd>
+
+    </dl>
+</div>
