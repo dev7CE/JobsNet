@@ -35,5 +35,25 @@
 <div>
     <partial name="_IndexPartialPuesto" for="@puesto" />
 </div>
-
-<partial name="_IndexPartialListaOferentes" for="@Model" />
+@if(Model.Count() > 0){
+    <partial name="_IndexPartialListaOferentes" for="@Model" />
+}
+else
+{
+    <div class="row row-sm bg-gray-200 p-3 justify-content-center">
+        <div class="az-error-wrapper">
+            <div class="d-flex flex-row justify-content-center">
+                <div><h4>@ViewBag.PartialViewTitle</h4></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><img height="250" src="~/img/no-data.svg" /></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><h5>Por el momento no hay candidatos</h5></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><p><i>"Las cosas buenas les llegan a aquellos que saben esperar"</i></p></div>
+            </div>
+        </div>
+    </div>
+}
