@@ -1,3 +1,17 @@
+@{
+    var statusMessage = ViewData["StatusMessage"];
+    if (statusMessage != null)
+    {
+        if (!statusMessage.ToString().Equals(""))
+        {
+        <div class="alert alert-dismissible bg-purple text-white" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+            <i class="fa fa-info-circle"></i> Informacion: @ViewData["StatusMessage"]
+        </div>
+        }
+    }
+}
 <div class="row no-gutters justify-content-between">
     <div class="col-4">
         <h2 class="tx-indigo">@ViewBag.Title</h2>
@@ -12,8 +26,8 @@
                 </a>
             </div>
             <div class="col-auto align-content-end">
-                <a href="#"
-                   class="btn btn-default btn-az-secondary disabled" data-toggle="tooltip"
+                <a asp-controller="Manage" asp-action="ChangePassword" 
+                   class="btn btn-default btn-az-secondary" data-toggle="tooltip"
                    data-placement="bottom" title="Cambiar contraseña">
                     <i class="fas fa-user-shield"></i> Cambiar contraseña
                 </a>
