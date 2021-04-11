@@ -16,8 +16,13 @@ namespace Solution.FrontEnd.Controllers
         private readonly string baseurl = "http://localhost:5000/";
         public OferentesController() { }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(OferentesMessageId? message = null)
         {
+            ViewData["StatusMessage"] =
+                message == OferentesMessageId.ChangePasswordSuccess ? "Se ha cambiado tu contraseña."
+                : message == OferentesMessageId.Error ? "Ha ocurrido un error con tu solicitud. Inténtalo nuevamente."
+                : "";
+            
             return View(await GetOferentesByUserName());
         }
         #region Helpers
@@ -41,6 +46,11 @@ namespace Solution.FrontEnd.Controllers
                 }
                 return null;
             }
+        }
+        public enum OferentesMessageId
+        {
+            ChangePasswordSuccess,
+            Error
         }
         #endregion
     }

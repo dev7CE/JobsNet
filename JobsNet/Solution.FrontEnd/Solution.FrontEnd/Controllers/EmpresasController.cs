@@ -16,8 +16,12 @@ namespace Solution.FrontEnd.Controllers
         private readonly string baseurl = "http://localhost:5000/";
         public EmpresasController() { }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(EmpresasMessageId? message = null)
         {
+            ViewData["StatusMessage"] =
+                message == EmpresasMessageId.ChangePasswordSuccess ? "Se ha cambiado tu contraseña."
+                : message == EmpresasMessageId.Error ? "Ha ocurrido un error con tu solicitud. Inténtalo nuevamente."
+                : "";
             return View(await GetEmpresaByUserName());
         }
         #region Helpers
@@ -41,6 +45,11 @@ namespace Solution.FrontEnd.Controllers
                 }
                 return null;
             }
+        }
+        public enum EmpresasMessageId
+        {
+            ChangePasswordSuccess,
+            Error
         }
         #endregion
     }
