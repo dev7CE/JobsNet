@@ -1,0 +1,130 @@
+@model Empresas
+@{
+    ViewData["Title"] = "Editar";
+    int idProvincia = (Model.Canton != null) ? Model.Canton.IdProvincia : -1;
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1 mg-b-0">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" class="no-outline-color">
+                <i class="fas fa-angle-left"></i>
+                Cancelar y volver
+            </a>
+        </li>
+    </ol>
+</nav>
+<br />
+<h3>@ViewData["Title"]</h3>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdEmpresa" />
+    <input type="hidden" asp-for="UserName" />
+    <input type="hidden" id="id-canton" asp-for="IdCanton" />
+    <input type="hidden" id="id-provincia" value="@idProvincia" />
+    <hr />
+    <div class="form-group row align-items-center">
+        <div class="col-md-3">
+            <label asp-for="NombreEmpresa" class="control-label"></label>
+        </div>
+        <div class="col-md-7">
+            <input asp-for="NombreEmpresa" class="form-control" />
+            <span asp-validation-for="NombreEmpresa" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-3">
+            <label asp-for="Descripcion" class="control-label"></label>
+        </div>
+        <div class="col-md-7">
+            <input asp-for="Descripcion" class="form-control" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-3">
+            <label asp-for="Telefono" class="control-label"></label>
+        </div>
+        <div class="col-md-7">
+            <input asp-for="Telefono" class="form-control" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-3">
+            <label for="provincias" class="control-label">Provincia</label>
+        </div>
+        <div class="col-md-7">
+            <select id="provincias" class="form-control" >
+                <option value="-1">Seleccione una Provincia</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row align-items-center" 
+        id="cantones-div" style="display: none;">
+        <div class="col-md-3">
+            <label asp-for="IdCanton" class="control-label"></label>
+        </div>
+        <div class="col-md-7">
+            <select asp-for="IdCanton" class="form-control" id="cantones">
+                <option value="-1">Seleccione una Canton</option>
+            </select>
+            <span asp-validation-for="IdCanton" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Confirmar Cambios" class="btn btn-primary" />
+    </div>
+</form>
+@section Scripts
+{
+    <script>
+        $(function () {
+            "use strict";
+            function SeedSelectCascadeLists () {
+                $.getJSON("/Empresas/GetProvincias", null, function (data) {
+                    $.each(data, function () {
+                        $("#provincias").append(`<option value="${this.idProvincia}">${this.nombreProvincia}</option>`);
+                    });
+                    $("#provincias").val($("#id-provincia").val());
+                    if($("#id-provincia").val() != '-1') {
+                        SeedSelectCantonesList($("#id-provincia").val());
+                        $("#cantones-div").show();
+                    } else {
+                        $("#cantones-div").hide();
+                    }
+                }).fail(function () {
+                    alert("No se pudo cargar los datos necesarios para el funcionamiento de esta pagia. Recargala de Nuevo");
+                });
+            }
+            function SeedSelectCantonesList(provincia) {
+                $.getJSON("/Empresas/CantonesByProvincia", { idProvincia: provincia }, function (data) {
+                    $("#cantones").html("");
+                    $.each(data, function () {
+                        $("#cantones").append(`<option value="${this.idCanton}">${this.nombreCanton}</option>`);
+                    });
+                    // Problema: Siempre selecciona el primer valor de la lista de cantones
+                    // Cuando no hay un canton seleccionado inconveniente, caso opuesto sí
+                    $("#id-canton").val($("#cantones option:first").attr('selected','selected').val());
+                    if($("#id-canton").val() != ''){
+                        $("#cantones").val($("#id-canton").val());    
+                    } else {
+                        $("#id-canton").val($("#cantones option:first").attr('selected','selected').val());
+                    }
+                    $("#cantones-div").show();
+                }).fail(function () {
+                    alert("No se pudo retornar los cantones. Recarga la página");
+                });
+            }
+
+            SeedSelectCascadeLists();
+            $("#provincias").on("change", function () {
+               SeedSelectCantonesList(this.value);
+            });
+            $("#cantones").on("change", function () {
+               $("#id-canton").val(this.value);
+            });
+            
+        });
+    </script>
+}
