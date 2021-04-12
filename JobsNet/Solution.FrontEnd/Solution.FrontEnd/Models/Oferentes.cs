@@ -15,12 +15,16 @@ namespace Solution.FrontEnd.Models
         public int IdOferente { get; set; }
         [Required]
         [StringLength(150)]
+        [Display (Name = "Nombre**")]
         public string Nombre { get; set; }
         [StringLength(150)]
+        [Display (Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
         [StringLength(150)]
+        [Display (Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
         [StringLength(150)]
+        [Display (Name = "Número Telefónico")]
         public string Telefono { get; set; }
         [StringLength(260)]
         public string UrlCurriculo { get; set; }

@@ -1,7 +1,6 @@
 @{
     var statusMessage = ViewData["StatusMessage"];
     string controllerName = (User.IsInRole(RoleNames.ROLE_OFERENTE)) ? "Oferentes" : "Empresas";
-    string disableIfOferente = (User.IsInRole(RoleNames.ROLE_OFERENTE)) ? "disabled" : string.Empty;
     if (statusMessage != null)
     {
         if (!statusMessage.ToString().Equals(""))
@@ -22,7 +21,7 @@
         <div class="row no-gutters justify-content-end">
             <div class="col-auto ">
                 <a asp-controller="@controllerName" asp-action="Edit"
-                   class="btn btn-default btn-az-primary @disableIfOferente" data-toggle="tooltip"
+                   class="btn btn-default btn-az-primary data-toggle="tooltip"
                    data-placement="bottom" title="Editar informacion">
                     <i class="fas fa-edit"></i> Editar
                 </a>

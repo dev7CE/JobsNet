@@ -1,0 +1,65 @@
+@model Oferentes
+
+@{
+    ViewData["Title"] = "Editar Perfil";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-style1 mg-b-0">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" class="no-outline-color">
+                <i class="fas fa-angle-left"></i>
+                Cancelar y volver
+            </a>
+        </li>
+    </ol>
+</nav>
+<br />
+<h3>@ViewBag.Title</h3>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="IdOferente" />
+    <input type="hidden" asp-for="UserName" />
+    <input type="hidden" asp-for="UrlCurriculo" />
+    <input type="hidden" asp-for="UrlFoto" />
+    <hr />
+    <div class="form-group row align-items-center">
+        <div class="col-md-2">
+            <label asp-for="Nombre" class="form-label mg-b-0"></label>
+        </div>
+        <div class="col-md-8">
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-2">
+            <label asp-for="Apellido1" class="form-label mg-b-0"></label>
+        </div>
+        <div class="col-md-8">
+            <input asp-for="Apellido1" class="form-control" />
+            <span asp-validation-for="Apellido1" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-2">
+            <label asp-for="Apellido2" class="form-label mg-b-0"></label>
+        </div>
+        <div class="col-md-8">
+            <input asp-for="Apellido2" class="form-control" />
+            <span asp-validation-for="Apellido2" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row align-items-center">
+        <div class="col-md-2">
+            <label asp-for="Telefono" class="form-label mg-b-0"></label>
+        </div>
+        <div class="col-md-8">
+            <input asp-for="Telefono" class="form-control" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Confirmar Cambios" class="btn btn-primary" />
+    </div>
+</form>
