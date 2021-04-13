@@ -14,6 +14,6 @@ namespace Solution.FrontEnd.Models
         public bool? Descartado { get; set; }
 
         public virtual Oferentes Oferente { get; set; }
-        public virtual PuestosTrabajo Puesto { get; set; }
+        public virtual PuestosTrabajo PuestoTrabajo { get; set; }
     }
 }

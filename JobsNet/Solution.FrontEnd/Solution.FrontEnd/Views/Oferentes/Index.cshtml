@@ -3,6 +3,7 @@
     ViewData["Title"] = "Perfil";
     string FullName = Model.Nombre + " " + Model.Apellido1 
         + " " + Model.Apellido2;
+    IEnumerable<PuestosTrabajo> puestosAplicados = ViewBag.PuestosTrabajo;
 }
 <partial name="_IndexEmpresasOferentesPartial" view-data="@ViewData" />
 <div class="az-profile-overview">
@@ -48,20 +49,27 @@
     </div><!-- col -->
 </div>
 <br />
-<div class="row row-sm bg-gray-200 p-3 justify-content-center">
-    <!-- Feat: Puestos de Trabajo Aplicados -->    
-    <div class="az-error-wrapper">
-        <div class="d-flex flex-row justify-content-center">
-            <div><h3>Puestos de Trabajo Aplicados</h3></div>
-        </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div><img height="250" src="~/img/no-apply.svg" /></div>
-        </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div><h5>Por el momento no has aplicado a ningún puesto</h5></div>
-        </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div><p>Cuando apliques a uno, este se mostrará justamente aqui</p></div>
+@if(puestosAplicados.Count() > 0)
+{
+    <partial name="_IndexOferentePuestosAplicados" view-data="ViewData" />
+}
+else
+{
+    <div class="row row-sm bg-gray-200 p-3 justify-content-center">
+        <!-- Feat: Puestos de Trabajo Aplicados -->    
+        <div class="az-error-wrapper">
+            <div class="d-flex flex-row justify-content-center">
+                <div><h3>Puestos de Trabajo Aplicados</h3></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><img height="250" src="~/img/no-apply.svg" /></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><h5>Por el momento no has aplicado a ningún puesto</h5></div>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div><p>Cuando apliques a uno, este se mostrará justamente aqui</p></div>
+            </div>
         </div>
     </div>
-</div>
+}

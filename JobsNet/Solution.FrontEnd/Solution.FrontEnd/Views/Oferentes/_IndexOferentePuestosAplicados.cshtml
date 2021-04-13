@@ -1,0 +1,37 @@
+@{
+    IEnumerable<PuestosTrabajo> puestosTrabajo = (IEnumerable<PuestosTrabajo>) ViewData["PuestosTrabajo"];
+    ViewBag.Title3 = "Puestos de Trabajo Aplicados";
+}
+
+<h3 class="tx-indigo">@ViewBag.Title3</h3>
+
+<div class="row row-sm">
+    @foreach (var item in puestosTrabajo
+        .OrderByDescending(p=>p.FechaPublicacion))
+    {
+        <div class="col-sm-12 mg-b-10">
+            <div class="row no-gutters">
+                <div class="bd bd-r-0 d-none d-md-block col-12 col-md-auto box" style="width:121px;">
+                    <img style="height:121px;"
+                         src="~/img/faces/companydefault.png" alt="E-Logo" />
+                </div>
+                <div class="card col-12 col-md hover">
+                    <div class="card-body">
+                        <h5 class="card-title truncated-text">
+                            <!-- stretched-link -->
+                            <a asp-controller="PuestosTrabajo" asp-action="Details" 
+                                asp-route-id="@item.IdPuesto" 
+                               class="stretched-link text-secondary">
+                               @Html.DisplayFor(modelItem => item.Titulo)</a>
+                        </h5>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <p class="card-text">
+                            <small class="text-muted"><i class="far fa-clock"></i> @Html.ValueFor(modelItem => item.FechaPublicacion, "{0:d MMMM, yyyy}") </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+     }
+</div>

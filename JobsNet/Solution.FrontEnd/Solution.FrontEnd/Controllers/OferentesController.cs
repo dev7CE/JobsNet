@@ -24,7 +24,7 @@ namespace Solution.FrontEnd.Controllers
                 : message == OferentesMessageId.ChangePasswordSuccess ? "Se ha cambiado tu contraseña."
                 : message == OferentesMessageId.Error ? "Ha ocurrido un error con tu solicitud. Inténtalo nuevamente."
                 : "";
-            
+            ViewData["PuestosTrabajo"] = await GetPuestosTrabajo();
             return View(await GetOferentesByUserName());
         }
         //
@@ -113,6 +113,31 @@ namespace Solution.FrontEnd.Controllers
                     .PutAsync("api/Oferentes/"+model.IdOferente, requestContent);
                 return res.IsSuccessStatusCode;
             }
+        }
+        public async Task<IEnumerable<data.PuestosTrabajo>> GetPuestosTrabajo()
+        {
+            List<data.PuestosTrabajo> puestosTrabajo = new List<data.PuestosTrabajo>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/ListaOferentes");
+        
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    foreach (var itemOferente in JsonConvert
+                        .DeserializeObject<List<data.ListaOferentes>>(auxres)
+                        .Where(lo => lo.Oferente.UserName.Equals(User.Identity.Name)))
+                    {
+                        puestosTrabajo.Add(itemOferente.PuestoTrabajo);
+                    } 
+                }
+            }
+            return puestosTrabajo;
         }
         public enum OferentesMessageId
         {
