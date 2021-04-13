@@ -18,6 +18,8 @@ namespace Solution.DAL.Repository
         {
             return await _context.PuestosTrabajo
                 .Include(e => e.Empresa)
+                    .ThenInclude(e => e.Canton)
+                        .ThenInclude(c => c.Provincia)
                 .ToListAsync();
         }
 
@@ -25,6 +27,8 @@ namespace Solution.DAL.Repository
         {
             return await _context.PuestosTrabajo
                 .Include(e => e.Empresa)
+                    .ThenInclude(e => e.Canton)
+                        .ThenInclude(c => c.Provincia)
                 .SingleOrDefaultAsync(e => e.IdPuesto == id);
         }
 

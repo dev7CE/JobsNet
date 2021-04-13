@@ -29,7 +29,24 @@
                                @Html.DisplayFor(modelItem => item.Titulo)</a>
                         </h5>
                         <h6 class="card-subtitle">@itemEmpresaEntity.NombreEmpresa</h6>
-                        <!-- Ubicacion de la empresa debería ir aquí -->
+                        <p class="card-text">
+                            @{
+                                if (itemEmpresaECanton == null)
+                                {
+                                    @Html.Raw("Sin ubicacion")
+                                }
+                                else
+                                {
+                                    @Html.Raw(itemEmpresaECanton.NombreCanton);
+                                    @Html.Raw(", ")
+                                    if (itemEmpresaECanton != null)
+                                    {
+                                        var itemEmpresaECProvcn = itemEmpresaEntity.Canton.Provincia;
+                                        @Html.Raw(itemEmpresaECProvcn.NombreProvincia);
+                                    }
+                                }
+                            }
+                        </p>
                     </div>
                     <div class="card-footer bg-transparent border-top-0">
                         <p class="card-text">
