@@ -14,14 +14,14 @@
 
     if (User.IsInRole("Empleador"))
     {
-        controllerName = "Empresa";
+        controllerName = "Empresas";
         userRole = "Empleador";
         photoName += "companydefault.png";
         name = await UserService.NombreEmpresa(User.Identity.Name);
     }
     else
     {
-        controllerName = "Oferente";
+        controllerName = "Oferentes";
         userRole = "Oferente";
         photoName += "facedefault.png";
         name = await UserService.NombreOferente(User.Identity.Name);
@@ -44,11 +44,11 @@
                 <span>@userRole</span>
             </div><!-- az-header-profile -->
 
-            <a asp-controller="Manage" asp-action="Index" class="dropdown-item isDisabled">
+            <a asp-controller="@controllerName" asp-action="Index" class="dropdown-item">
                 <i class="typcn typcn-user-outline"></i> 
                 Mi perfil
             </a>
-            <a asp-controller="@controllerName" asp-action="Manage" class="dropdown-item isDisabled">
+            <a asp-controller="@controllerName" asp-action="Edit" class="dropdown-item">
                 <i class="typcn typcn-edit"></i> 
                 Edita Perfil
             </a>
