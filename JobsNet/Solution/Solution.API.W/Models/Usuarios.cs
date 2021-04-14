@@ -9,6 +9,7 @@ namespace Solution.API.W.Models
     {
         public Usuarios()
         {
+            Documentos = new HashSet<Documentos>();
             Empresas = new HashSet<Empresas>();
             Oferentes = new HashSet<Oferentes>();
         }
@@ -17,6 +18,8 @@ namespace Solution.API.W.Models
         [StringLength(256)]
         public string UserName { get; set; }
 
+        [InverseProperty("UserNameNavigation")]
+        public virtual ICollection<Documentos> Documentos { get; set; }
         [InverseProperty("UserNameNavigation")]
         public virtual ICollection<Empresas> Empresas { get; set; }
         [InverseProperty("UserNameNavigation")]

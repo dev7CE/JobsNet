@@ -16,6 +16,7 @@ namespace Solution.API.W.Models
         }
 
         public virtual DbSet<Cantones> Cantones { get; set; }
+        public virtual DbSet<Documentos> Documentos { get; set; }
         public virtual DbSet<Empresas> Empresas { get; set; }
         public virtual DbSet<ListaOferentes> ListaOferentes { get; set; }
         public virtual DbSet<Oferentes> Oferentes { get; set; }
@@ -45,6 +46,19 @@ namespace Solution.API.W.Models
                     .HasForeignKey(d => d.IdProvincia)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PROVINCIAS");
+            });
+
+            modelBuilder.Entity<Documentos>(entity =>
+            {
+                entity.Property(e => e.FileContent).IsFixedLength();
+
+                entity.Property(e => e.Type).IsUnicode(false);
+
+                entity.HasOne(d => d.Usuario)
+                    .WithMany(p => p.Documentos)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USUARIO_DOCUEMNTO");
             });
 
             modelBuilder.Entity<Empresas>(entity =>

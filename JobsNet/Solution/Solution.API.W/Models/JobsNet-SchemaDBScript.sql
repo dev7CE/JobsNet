@@ -1,4 +1,4 @@
-﻿CREATE DATABASE [JobsNet]
+CREATE DATABASE [JobsNet]
 GO
 USE [JobsNet]
 GO
@@ -71,6 +71,16 @@ PRIMARY KEY ([IdOferente], [IdPuesto])
 )
 GO
 -- ---------------------------------------------------------------------
+-- --------------------------------------------------- DOCUMENTOS (CV's)
+CREATE TABLE [dbo].[Documentos](
+	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[UserName] [nvarchar](256) NOT NULL, 
+	[Guid] [varchar](MAX) NOT NULL,
+	[FileContent] varbinary(MAX) NOT NULL, 
+	[Type] [varchar](256) NOT NULL
+)
+GO
+-- ---------------------------------------------------------------------
 -- -------------------------- CLAVES FORANEAS --------------------------
 ALTER TABLE [dbo].[Cantones] WITH CHECK 
     ADD CONSTRAINT [FK_PROVINCIAS] 
@@ -106,6 +116,11 @@ ALTER TABLE [dbo].[ListaOferentes] WITH CHECK
     ADD CONSTRAINT [FK_ID_PUESTO] 
     FOREIGN KEY([IdPuesto])
     REFERENCES [dbo].[PuestosTrabajo] ([IdPuesto])
+GO
+ALTER TABLE [dbo].[Documentos] WITH CHECK 
+    ADD CONSTRAINT [FK_USUARIO_DOCUEMNTO] 
+    FOREIGN KEY([UserName])
+    REFERENCES [dbo].[Usuarios] ([UserName])
 GO
 -- ---------------------------------------------------------------------
 -- ------------------------ INSERCION DE DATOS -------------------------
