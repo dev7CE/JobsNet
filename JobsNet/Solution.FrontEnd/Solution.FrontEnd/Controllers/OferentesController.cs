@@ -1,4 +1,4 @@
-﻿using data = Solution.FrontEnd.Models;
+using data = Solution.FrontEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -69,6 +69,9 @@ namespace Solution.FrontEnd.Controllers
                 files.CopyTo(memoryStream);
                 if (memoryStream.Length < 2097152)
                 {
+                    if(!files.FileName.Split('.').LastOrDefault().ToLower().Equals("pdf"))
+                    return BadRequest("Icorrect File Type");
+                              
                     if(await AddResume(new data.Documentos
                     {
                         UserName = User.Identity.Name,

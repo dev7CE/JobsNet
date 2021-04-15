@@ -85,12 +85,14 @@
     </div>
     <div class="form-group row align-items-center">
         <div class="col-md-2">
-            <label class="form-label mg-b-0" >Curriculo</label>
+            <label class="form-label mg-b-0" >Curriculo <span class="tx-danger">(PDF)</span></label>
         </div>
         <div class="col-md-8">
             @if(ViewBag.Resume == null)
             {
-                <input type="file" name="files" id="filepond" class="filepond">
+                <input type="file" name="files" 
+                    id="filepond" class="filepond"
+                    accept="application/pdf">
             }
             else
             {
@@ -104,9 +106,12 @@
 </form>
 @section Scripts 
 {
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
     <script src="~/lib/filepond/dist/filepond.js"></script>
     <script src="~/lib/filepond/locale/es-es.js"></script>
     <script type="module" >
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+
         const inputElement = document.querySelector('input[type ="file"]');
         const pond = FilePond.create( inputElement );
 
@@ -129,7 +134,6 @@
 
                     request.onload = function () {
                     if (request.status >= 200 && request.status < 300) {
-                        console.log(request.responseText);
                         load(request.responseText);// the load method accepts either a string (id) or an object
                     }
                     else {
