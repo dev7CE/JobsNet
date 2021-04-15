@@ -1,5 +1,5 @@
 @model IEnumerable<ListaOferentes>
-
+@inject UserService UserService
 <!--<h4 class="mb-1">@ViewBag.PartialViewTitle</h4>-->
 <hr class="mg-y-10">
 
@@ -68,9 +68,16 @@
                         <img width="12" src="~/img/menu.svg" />
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" role="menu">
-                        <span class="dropdown-item isDisabled">
-                            <i class="fas fa-external-link-square-alt"></i>Ver curriculo
-                        </span>
+                        @if(await UserService.HasResume(item.IdOferente)){
+                            <a asp-action="Resume" asp-route-id="@item.IdOferente" 
+                                class="dropdown-item" target="_blank">
+                                <i class="fas fa-external-link-square-alt"></i>Ver curriculo
+                            </a>
+                        } else {
+                            <span class="dropdown-item isDisabled">
+                                <i class="fas fa-external-link-square-alt"></i>Ver curriculo
+                            </span>
+                        }
                         <form asp-action="SetDiscart" 
                             asp-route-idOferente="@item.IdOferente"
                             asp-route-idPuesto="@item.IdPuesto"> 

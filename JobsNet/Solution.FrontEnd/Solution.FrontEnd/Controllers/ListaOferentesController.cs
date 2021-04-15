@@ -63,6 +63,26 @@ namespace Solution.FrontEnd.Controllers
             return RedirectToAction("Details", "PuestosTrabajo",new { id = idPuesto, Message = ControllerMessageId.Error });
 
         }
+        // 
+        // GET: Open Resume
+        [HttpGet]
+        public async Task<IActionResult> Resume(int id)
+        {
+            data.Oferentes oferente = await GetOferenteById(id);
+            if (oferente == null)
+            return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
+
+            data.Documentos documento = await GetResumeByUserName(oferente.UserName);
+            
+            if (documento == null)
+            return NotFound();
+
+            // Descarga el archivo
+            //return File(documento.FileContent, "application/pdf", 
+            //    $"Resume_{documento.Id}.{documento.Type}");
+            // Abre En nueva ventana
+            return File(documento.FileContent, "application/pdf");
+        }
         #region Helpers
         private async Task<IEnumerable<data.ListaOferentes>> GetByPuesto(int idPuesto)
         {
@@ -165,6 +185,43 @@ namespace Solution.FrontEnd.Controllers
                 HttpResponseMessage res = await client
                     .PostAsync("api/ListaOferentes", requestContent);
                 return res.IsSuccessStatusCode;
+            }
+        }
+        private async Task<data.Oferentes>GetOferenteById (int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/Oferentes/"+id);
+        
+                if (!res.IsSuccessStatusCode)
+                return null;
+                
+                var auxres = res.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<data.Oferentes>(auxres);
+            }
+        }
+        private async Task<data.Documentos>GetResumeByUserName (string userName)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync("api/Documentos");
+        
+                if (!res.IsSuccessStatusCode)
+                return null;
+
+                var auxres = res.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<IEnumerable<data.Documentos>>(auxres)
+                    .SingleOrDefault(d => d.UserName.Equals(userName));
             }
         }
         public enum ControllerMessageId
