@@ -1,4 +1,4 @@
-using data = Solution.FrontEnd.Models;
+﻿using data = Solution.FrontEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace Solution.FrontEnd.Controllers
         // 
         // DELETE: Oferentes/Revert
         [HttpDelete]
-        public async Task<ActionResult> Revert()
+        public async Task<IActionResult> Revert()
         {
             // Read the request body
             string content = "";
@@ -101,9 +101,18 @@ namespace Solution.FrontEnd.Controllers
             {
                 content = await sr.ReadToEndAsync();
             }
+            if(string.IsNullOrEmpty(content))
+            return BadRequest("Error encountered on server. Message: Null request");
             
             try
             {
+                data.Documentos doc = await GetDocumento();
+                if (!content.Equals((doc.Guid)))
+                return BadRequest("Error encountered on server. Message: Incorrect Params");
+                
+                if(!await DeleteResume(doc.Id))
+                return BadRequest("Error encountered on server. Message: Could not delete file");
+                
                 return Ok();
             }
             catch (Exception e)
