@@ -10,14 +10,23 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Solution.FrontEnd.DAL;
 
 namespace Solution.FrontEnd.Controllers
 {
     [Authorize]
     public class OferentesController : Controller
     {
-        private readonly string baseurl = "http://localhost:5000/";
-        public OferentesController() { }
+        private DocumentosRepository _repositoryDocumentos;
+        private OferentesRepository _repositoryOferentes;
+        private ListaOferentesRepository _repositoryListOferentes;
+        
+        public OferentesController()
+        {
+            _repositoryDocumentos = new DocumentosRepository();
+            _repositoryOferentes = new OferentesRepository();
+            _repositoryListOferentes = new ListaOferentesRepository();
+        }
 
         public async Task<IActionResult> Index(OferentesMessageId? message = null)
         {
@@ -27,7 +36,7 @@ namespace Solution.FrontEnd.Controllers
                 : message == OferentesMessageId.Error ? "Ha ocurrido un error con tu solicitud. Inténtalo nuevamente."
                 : "";
             ViewData["PuestosTrabajo"] = await GetPuestosTrabajo();
-            return View(await GetOferentesByUserName());
+            return View(await GetOferenteByUserName());
         }
         //
         // GET: Oferentes/Edit
@@ -41,7 +50,7 @@ namespace Solution.FrontEnd.Controllers
             return View(await GetOferenteByUserName());
         }
         // 
-        // POST: Empresas/model
+        // POST: Oferentes/model
         [HttpPost]
         public async Task<IActionResult> Edit([Bind("IdOferente,Nombre,Apellido1,Apellido2,Telefono,UrlCurriculo,UrlFoto,UserName")] data.Oferentes model)
         {
@@ -53,7 +62,7 @@ namespace Solution.FrontEnd.Controllers
             if (!ModelState.IsValid)
             return View(model);
 
-            if(await UpdateOferente(model))
+            if(await _repositoryOferentes.UpdateOferente(model))
             return RedirectToAction(nameof(Index), new { Message = OferentesMessageId.UpdateOferenteSuccess });
 
             return RedirectToAction(nameof(Index), new { Message = OferentesMessageId.Error });
@@ -72,7 +81,7 @@ namespace Solution.FrontEnd.Controllers
                     if(!files.FileName.Split('.').LastOrDefault().ToLower().Equals("pdf"))
                     return BadRequest("Icorrect File Type");
                               
-                    if(await AddResume(new data.Documentos
+                    if(await _repositoryDocumentos.AddResume(new data.Documentos
                     {
                         UserName = User.Identity.Name,
                         Guid = Guid.NewGuid().ToString(),
@@ -110,7 +119,7 @@ namespace Solution.FrontEnd.Controllers
                 if (!content.Equals((doc.Guid)))
                 return BadRequest("Error encountered on server. Message: Incorrect Params");
                 
-                if(!await DeleteResume(doc.Id))
+                if(!await _repositoryDocumentos.DeleteResume(doc.Id))
                 return BadRequest("Error encountered on server. Message: Could not delete file");
                 
                 return Ok();
@@ -129,174 +138,35 @@ namespace Solution.FrontEnd.Controllers
             if (!guid.Equals((doc.Guid)))
             return Json(new { response = "invalid" });   
 
-            if(await DeleteResume(doc.Id))
+            if(await _repositoryDocumentos.DeleteResume(doc.Id))
             return Json(new { response = "deleted" });
 
             return Json(new { response = "error" });
         }
         #region Helpers
-        public async Task<data.Oferentes> GetOferentesByUserName ()
+        private async Task<data.Oferentes> GetOferenteByUserName ()
         {
             string userName = User.Identity.Name; 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Oferentes");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<IEnumerable<data.Oferentes>>(auxres)
-                        .SingleOrDefault(o => o.UserName.Equals(userName));
-                }
-                return null;
-            }
-        }
-        public async Task<data.Oferentes> GetOferenteByUserName ()
-        {
-            string userName = User.Identity.Name; 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Oferentes");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<IEnumerable<data.Oferentes>>(auxres)
-                        .SingleOrDefault(o => o.UserName.Equals(userName));
-                }
-                return null;
-            }
-        }
-        private async Task<bool> UpdateOferente(data.Oferentes model)
-        {
-            using (var client = new HttpClient())
-            {
-                var requestContent = new StringContent(
-                    JsonConvert.SerializeObject(model), 
-                    Encoding.UTF8, 
-                    "application/json"
-                );
-
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .PutAsync("api/Oferentes/"+model.IdOferente, requestContent);
-                return res.IsSuccessStatusCode;
-            }
+            return (await _repositoryOferentes.GetOferentes())
+                .SingleOrDefault(o => o.UserName.Equals(userName));
         }
         public async Task<IEnumerable<data.PuestosTrabajo>> GetPuestosTrabajo()
         {
             List<data.PuestosTrabajo> puestosTrabajo = new List<data.PuestosTrabajo>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/ListaOferentes");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    foreach (var itemOferente in JsonConvert
-                        .DeserializeObject<List<data.ListaOferentes>>(auxres)
-                        .Where(lo => lo.Oferente.UserName.Equals(User.Identity.Name)))
-                    {
-                        puestosTrabajo.Add(itemOferente.PuestoTrabajo);
-                    } 
-                }
-            }
+            
+            IEnumerable<data.ListaOferentes> aux = 
+                (await _repositoryListOferentes.GetListaOferentes())
+                .Where(lo => lo.Oferente.UserName.Equals(User.Identity.Name));
+                
+            foreach (var itemOferente in aux)
+            puestosTrabajo.Add(itemOferente.PuestoTrabajo);
+            
             return puestosTrabajo;
-        }
-        public async Task<bool> AddResume (data.Documentos model)
-        {
-            using (var client = new HttpClient())
-            {
-                var requestContent = new StringContent(
-                    JsonConvert.SerializeObject(model), 
-                    Encoding.UTF8, 
-                    "application/json"
-                );
-
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.PostAsync("api/Documentos", requestContent);
-        
-                return res.IsSuccessStatusCode;
-            }
         }
         public async Task<data.Documentos> GetDocumento()
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Documentos");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                   return JsonConvert
-                        .DeserializeObject<List<data.Documentos>>(auxres)
-                        .SingleOrDefault(d => d.UserName.Equals(User.Identity.Name)); 
-                }
-            }
-            return null;
-        }
-        public async Task<data.Documentos> GetDocumentos(int id)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Documentos");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    return JsonConvert
-                        .DeserializeObject<List<data.Documentos>>(auxres)
-                        .SingleOrDefault(d => d.Id == id); 
-                }
-            }
-            return null;
-        }
-        public async Task<bool> DeleteResume (int id)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.DeleteAsync("api/Documentos/"+id);
-        
-                return res.IsSuccessStatusCode;
-            }
+            return (await _repositoryDocumentos.GetDocumentos())
+                .SingleOrDefault(d => d.UserName.Equals(User.Identity.Name));
         }
         public enum OferentesMessageId
         {

@@ -5,12 +5,14 @@ using System.Net.Http;
 using System;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Text;
 
 namespace Solution.FrontEnd.DAL
 {
     public class OferentesRepository
     {
         private readonly string _baseurl = "http://localhost:5000/";
+        
         public async Task<IEnumerable<data.Oferentes>> GetOferentes ()
         {
             using (var client = new HttpClient())
@@ -47,6 +49,26 @@ namespace Solution.FrontEnd.DAL
                     return JsonConvert.DeserializeObject<data.Oferentes>(auxres);
                 }
                 return null;
+            }
+        }
+        public async Task<bool> UpdateOferente(data.Oferentes model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(_baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PutAsync("api/Oferentes/"+model.IdOferente, requestContent);
+                return res.IsSuccessStatusCode;
             }
         }
     }
