@@ -4,96 +4,52 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Solution.FrontEnd.DAL;
 using data = Solution.FrontEnd.Models;
 
 namespace Solution.FrontEnd.Models
 {
     public class UserService
     {
-        private readonly string baseurl = "http://localhost:5000/";
-        public UserService() { }
-        public async Task<string> NombreOferente (string userName)
-        {
-            List<data.Oferentes> aux = new List<data.Oferentes>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Oferentes");
+        private EmpresasRepository _repositoryEmpresas;
+        private OferentesRepository _repositoryOferentes;
+        private ListaOferentesRepository _repositoryListaOferentes;
+        private DocumentosRepository _repositoryDocumentos;
 
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    aux = JsonConvert.DeserializeObject<List<data.Oferentes>>(auxres);
-                }
-            }
-            return BuildName(aux, userName);
+        public UserService() 
+        { 
+            _repositoryEmpresas = new EmpresasRepository();
+            _repositoryOferentes = new OferentesRepository();
+            _repositoryListaOferentes = new ListaOferentesRepository();
+            _repositoryDocumentos = new DocumentosRepository();
         }
         
+        public async Task<string> NombreOferente (string userName)
+        {
+            data.Oferentes oferente = (await _repositoryOferentes.GetOferentes())
+                .SingleOrDefault(o => o.UserName.Equals(userName));
+            return $"{oferente.Nombre} {oferente.Apellido1} {oferente.Apellido2}";
+        }
         public async Task<string> NombreEmpresa (string userName)
         {
-            List<data.Empresas> aux = new List<data.Empresas>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Empresas");
-
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    aux = JsonConvert.DeserializeObject<List<data.Empresas>>(auxres);
-                }
-            }
-            return BuildName(aux, userName);
+            data.Empresas empresa = await _repositoryEmpresas.GetEmpresaByUserName(userName);
+            return empresa.NombreEmpresa;
         }
         public async Task<data.Oferentes> GetOferenteByUserName (string userName)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Oferentes");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<IEnumerable<data.Oferentes>>(auxres)
-                        .SingleOrDefault(o => o.UserName.Equals(userName));
-                }
-                return null;
-            }
+            return (await _repositoryOferentes.GetOferentes())
+                .SingleOrDefault(o => o.UserName.Equals(userName));
         }
         public async Task<bool> AlreadyApplied(int idOferente, int idPuesto)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .GetAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto);
-
-                if (res.IsSuccessStatusCode)
-                return true;
-
-                return false;
-            }
+            return (await _repositoryListaOferentes
+                .GetListaOferentesByIds(idOferente, idPuesto))
+                != null; 
         }
         public async Task<bool> HasResume(int idOferente)
         {
-            data.Oferentes oferente = await GetOferenteById(idOferente);
+            data.Oferentes oferente = 
+                await _repositoryOferentes.GetOferenteById(idOferente);
 
             if(oferente == null)
             return false;
@@ -101,58 +57,10 @@ namespace Solution.FrontEnd.Models
             return (await GetDocumentByUserName(oferente.UserName) != null);
         }
         #region Helpers
-        private string BuildName(List<data.Oferentes> oferentes, string userName)
-        {
-            Oferentes aux = oferentes.SingleOrDefault(o => 
-                o.UserName.Equals(userName)
-            );
-            return $"{aux.Nombre} {aux.Apellido1} {aux.Apellido2}";
-        }
-        private string BuildName(List<data.Empresas> empresas, string userName)
-        {
-            Empresas aux = empresas.SingleOrDefault(o => 
-                o.UserName.Equals(userName)
-            );
-            return $"{aux.NombreEmpresa}";
-        }
-        private async Task<data.Oferentes> GetOferenteById(int id)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .GetAsync("api/Oferentes/"+id);
-
-                if (res.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<data.Oferentes>(
-                    res.Content.ReadAsStringAsync().Result);
-
-                return null;
-            }
-        }
         private async Task<data.Documentos> GetDocumentByUserName(string userName)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .GetAsync("api/Documentos");
-
-                if (res.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<IEnumerable<data.Documentos>>(
-                    res.Content.ReadAsStringAsync().Result)
-                    .SingleOrDefault(d => d.UserName.Equals(userName));
-
-                return null;
-            }
+            return (await _repositoryDocumentos.GetDocumentos())
+                .SingleOrDefault(d => d.UserName.Equals(userName));
         }
         #endregion
     }
