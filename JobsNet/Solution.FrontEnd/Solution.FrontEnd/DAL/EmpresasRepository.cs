@@ -41,8 +41,7 @@ namespace Solution.FrontEnd.DAL
                 return res.IsSuccessStatusCode;
             }
         }
-        #region Private Methods
-        private async Task<IEnumerable<data.Empresas>> GetEmpresas()
+        public async Task<IEnumerable<data.Empresas>> GetEmpresas()
         {
             using (var client = new HttpClient())
             {
@@ -61,6 +60,7 @@ namespace Solution.FrontEnd.DAL
                 return null;
             }
         }
+        #region Private Methods
         #endregion
     }
 }
