@@ -135,20 +135,94 @@ INSERT INTO Provincias (NombreProvincia) VALUES ('Puntarenas');
 INSERT INTO Provincias (NombreProvincia) VALUES ('San Jose');
 -- ---------------------------------------------------------------------
 -- ------------------------------------------------------------ CANTONES
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Ramon', 1);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Atenas', 1);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Union', 2);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Paraiso', 2);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Liberia', 3);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('La Cruz', 3);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('San Rafael', 4);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Belen', 4);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Pocosi', 5);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guacimo', 5);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Esparza', 6);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Buenos Aires', 6);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Guadalupe', 7);
-INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('Montes de Oca', 7);
+-- SAN JOSE ------------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN JOSE', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ESCAZU', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('DESAMPARADOS', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PURISCAL', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TARRAZU', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ASERRI', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MORA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GOICOECHEA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SANTA ANA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ALAJUELITA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CORONADO', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ACOSTA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TIBAS', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MORAVIA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MONTES DE OCA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TURRUBARES', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('DOTA', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CURRIDABAT', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PEREZ ZELEDON', 7)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LEON CORTES', 7)
+-- ALAJUELA -----------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ALAJUELA', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN RAMON', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES (' GRECIA', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN MATEO', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ATENAS', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('NARANJO', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PALMARES', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('POAS', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('OROTINA', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN CARLOS', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ALFARO RUIZ', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('VALVERDE VEGA', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('UPALA', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LOS CHILES', 1)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GUATUSO', 1)
+-- CARTAGO ------------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CARTAGO', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PARAISO', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LA UNION', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('JIMENEZ', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TURRIALBA', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ALVARADO', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('OREAMUNO', 2)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('EL GUARCO', 2)
+-- HEREDIA ------------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('HEREDIA', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('BARVA', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SANTO DOMINGO', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SANTA BARBARA', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN RAFAEL', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN ISIDRO', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('BELEN', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('FLORES', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SAN PABLO', 4)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SARAPIQUI', 4)
+-- GUANACASTE ---------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LIBERIA', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('NICOYA', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SANTA CRUZ', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('BAGACES', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CARRILLO', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CAÑAS', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ABANGARES', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TILARAN', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('NANDAYURE', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LA CRUZ', 3)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('HOJANCHA', 3)
+-- PUNTARENAS ---------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PUNTARENAS', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('ESPARZA', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('BUENOS AIRES', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MONTES DE ORO', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('OSA', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('AGUIRRE', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GOLFITO', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('COTO BRUS', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('PARRITA', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('CORREDORES', 6)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GARABITO', 6)
+-- LIMON --------------------------------------------------------------
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('LIMON', 5)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('POCOCI', 5)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('SIQUIRRES', 5)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('TALAMANCA', 5)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MATINA', 5)
+INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GUACIMO', 5)
 -- ---------------------------------------------------------------------
 -- --------------------------------------------------- USUARIOS IDENTITY
 INSERT INTO Usuarios (UserName) VALUES ('recursoshumanos@kcc.com');
@@ -172,8 +246,8 @@ INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
 INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
     , UrlCurriculo, UrlFoto, UserName)
     VALUES ('Bryan', 'Mora', 'Cascante', '84782021'
-    , 'urlCV', 'urlPhoto', 'bmora70466@ufide.ac.cr');
+    , 'urlCV', 'facedefault.png', 'bmora70466@ufide.ac.cr');
 INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
     , UrlCurriculo, UrlFoto, UserName)
     VALUES ('Lyam', 'Vega', 'Hernandez', '84782022'
-    , 'urlCV', 'urlPhoto', 'lvega70467@ufide.ac.cr');
+    , 'urlCV', 'facedefault.png', 'lvega70467@ufide.ac.cr');
