@@ -15,7 +15,6 @@ namespace Solution.FrontEnd.Controllers
     [Authorize]
     public class EmpresasController : Controller
     {
-        private readonly string baseurl = "http://localhost:5000/";
         private EmpresasRepository _repositoryEmpresas;
         private ProvinciasRepository _repositoryProvincias;
         private CantonesRepository _repositoryCantones;
