@@ -7,13 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using data = Solution.FrontEnd.Models;
 using System.Text;
+using Solution.FrontEnd.DAL;
 
 namespace Solution.FrontEnd.Controllers
 {
     public class ListaOferentesController : Controller
     {
-        private readonly string baseurl = "http://localhost:5000/";
-        public ListaOferentesController() { }
+        private ListaOferentesRepository _repositoryListaOferentes;
+        private PuestosTrabajoRepository _repositoryPuestosTrabajo;
+        private DocumentosRepository _repositoryDocumentos;
+        private OferentesRepository _repositoryOferentes;
+        public ListaOferentesController()
+        {
+            _repositoryListaOferentes = new ListaOferentesRepository();
+            _repositoryPuestosTrabajo = new PuestosTrabajoRepository();
+            _repositoryDocumentos = new DocumentosRepository();
+            _repositoryOferentes = new OferentesRepository();
+        }
+
         //
         // GET: ListaOferentes/Index/5
         public async Task<IActionResult> Index(int idPuesto, ControllerMessageId? message = null)
@@ -23,7 +34,7 @@ namespace Solution.FrontEnd.Controllers
                 : message == ControllerMessageId.Error ? "Ha ocurrido un error con la solicitud."
                 : "";
 
-            ViewData["puesto"] = await GetPuesto(idPuesto); 
+            ViewData["puesto"] = await _repositoryPuestosTrabajo.GetPuestoTrabajo(idPuesto); 
             return View(await GetByPuesto(idPuesto));
         }
         //
@@ -34,13 +45,13 @@ namespace Solution.FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetDiscart(int idOferente, int idPuesto)
         {
-            data.ListaOferentes oferente = await GetItemListaOferentes(idOferente, idPuesto);
+            data.ListaOferentes oferente = await _repositoryListaOferentes.GetListaOferentesByIds(idOferente, idPuesto);
             if (oferente == null)
             return NotFound();
             
             oferente.Descartado = !oferente.Descartado;
 
-            if(await UpdateItemListaOferentes(idOferente, idPuesto, oferente))
+            if(await _repositoryListaOferentes.UpdateItemListaOferentes(idOferente, idPuesto, oferente))
             return RedirectToAction(nameof(Index), new { idPuesto = idPuesto, Message = ControllerMessageId.UpdateItemOferenteSuccess });
 
             return View();
@@ -51,9 +62,7 @@ namespace Solution.FrontEnd.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit (int idOferente, int idPuesto)
         {
-            //data.ListaOferentes oferente =  await GetItemListaOferentes(idOferente, idPuesto);
-            //if (oferente == null)
-            if(await InsertItemListaOferentes(new data.ListaOferentes 
+            if(await _repositoryListaOferentes.InsertItemListaOferentes(new data.ListaOferentes 
             {
                 IdOferente = idOferente, 
                 IdPuesto = idPuesto
@@ -68,7 +77,8 @@ namespace Solution.FrontEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> Resume(int id)
         {
-            data.Oferentes oferente = await GetOferenteById(id);
+            data.Oferentes oferente = await _repositoryOferentes.GetOferenteById(id);
+
             if (oferente == null)
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
 
@@ -86,143 +96,13 @@ namespace Solution.FrontEnd.Controllers
         #region Helpers
         private async Task<IEnumerable<data.ListaOferentes>> GetByPuesto(int idPuesto)
         {
-            List<data.ListaOferentes> aux = new List<data.ListaOferentes>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/ListaOferentes");
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    aux = JsonConvert.DeserializeObject<List<data.ListaOferentes>>(auxres);
-                }
-            }
-            return aux.Where(lo => lo.IdPuesto == idPuesto)
-                .ToList();
-        }
-        private async Task<data.PuestosTrabajo> GetPuesto (int idPuesto)
-        {
-            data.PuestosTrabajo puesto = new data.PuestosTrabajo();
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/PuestosTrabajo/"+idPuesto);
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    puesto = JsonConvert.DeserializeObject<data.PuestosTrabajo>(auxres);
-                }
-            }
-
-            return puesto;
-        }
-        private async Task<data.ListaOferentes> GetItemListaOferentes(int idOferente, int idPuesto)
-        {
-            data.ListaOferentes aux = new data.ListaOferentes();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto);
-        
-                if (res.IsSuccessStatusCode)
-                {
-                    var auxres = res.Content.ReadAsStringAsync().Result;
-                    aux = JsonConvert.DeserializeObject<data.ListaOferentes>(auxres);
-                }
-            }
-            return aux;
-        }
-        private async Task<bool> UpdateItemListaOferentes(int idOferente, int idPuesto, data.ListaOferentes model)
-        {
-            using (var client = new HttpClient())
-            {
-                var requestContent = new StringContent(
-                    JsonConvert.SerializeObject(model), 
-                    Encoding.UTF8, 
-                    "application/json"
-                );
-
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .PutAsync("api/ListaOferentes/"+idOferente+"/"+idPuesto, requestContent);
-                return res.IsSuccessStatusCode;
-            }
-        }
-        private async Task<bool> InsertItemListaOferentes(data.ListaOferentes model)
-        {
-            using (var client = new HttpClient())
-            {
-                var requestContent = new StringContent(
-                    JsonConvert.SerializeObject(model), 
-                    Encoding.UTF8, 
-                    "application/json"
-                );
-
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client
-                    .PostAsync("api/ListaOferentes", requestContent);
-                return res.IsSuccessStatusCode;
-            }
-        }
-        private async Task<data.Oferentes>GetOferenteById (int id)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Oferentes/"+id);
-        
-                if (!res.IsSuccessStatusCode)
-                return null;
-                
-                var auxres = res.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<data.Oferentes>(auxres);
-            }
+            return (await _repositoryListaOferentes.GetListaOferentes())
+                .Where(lo => lo.IdPuesto == idPuesto);
         }
         private async Task<data.Documentos>GetResumeByUserName (string userName)
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers
-                        .MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = await client.GetAsync("api/Documentos");
-        
-                if (!res.IsSuccessStatusCode)
-                return null;
-
-                var auxres = res.Content.ReadAsStringAsync().Result;
-                return JsonConvert.DeserializeObject<IEnumerable<data.Documentos>>(auxres)
-                    .SingleOrDefault(d => d.UserName.Equals(userName));
-            }
+            return (await _repositoryDocumentos.GetDocumentos())
+                .SingleOrDefault(d => d.UserName.Equals(userName));
         }
         public enum ControllerMessageId
         {
