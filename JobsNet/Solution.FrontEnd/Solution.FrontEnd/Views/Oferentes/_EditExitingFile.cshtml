@@ -32,14 +32,19 @@
                                 <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z" fill="currentColor" fill-rule="nonzero"></path></svg>
                                 <span>Eliminar</span>
                             </button>
+                            <a asp-controller="ListaOferentes" asp-action="Resume" asp-route-id="@Model.IdOferente" target="_blank" 
+                                class="filepond--file-action-button filepond--action-process-item tx-white" type="button" data-align="right" 
+                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); right: 2.5625em;"> 
+                                <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M14 10.414v3.585a1 1 0 0 1-2 0v-3.585l-1.293 1.293a1 1 0 0 1-1.414-1.415l3-3a1 1 0 0 1 1.414 0l3 3a1 1 0 0 1-1.414 1.415L14 10.414zM9 18a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2H9z" fill="currentColor" fill-rule="evenodd"></path></svg>
+                                <span>Ver</span>
+                            </a>
                             <div class="filepond--processing-complete-indicator" data-align="right" 
                                 style="transform: scale3d(0.75, 0.75, 1); opacity: 0; visibility: hidden; pointer-events: none;">
                                 <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg"><path d="M18.293 9.293a1 1 0 0 1 1.414 1.414l-7.002 7a1 1 0 0 1-1.414 0l-3.998-4a1 1 0 1 1 1.414-1.414L12 15.586l6.294-6.293z" fill="currentColor" fill-rule="nonzero"></path></svg>
                             </div>
                             <div class="filepond--file-info" style="transform: translate3d(0px, 0px, 0px);">
                                 <span class="filepond--file-info-main" aria-hidden="true">
-                                    <!-- AQUI EL NOMBRE DEL ARCHIVO SI EXISTE -->
-                                    Curriculo.pdf
+                                    Has subido este curriculo
                                 </span>
                             </div>
                         </div>
