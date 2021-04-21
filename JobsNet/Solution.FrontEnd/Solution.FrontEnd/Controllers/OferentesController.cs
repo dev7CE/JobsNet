@@ -11,10 +11,11 @@ using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Solution.FrontEnd.DAL;
+using Solution.FrontEnd.Models;
 
 namespace Solution.FrontEnd.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = RoleNames.ROLE_OFERENTE)]
     public class OferentesController : Controller
     {
         private DocumentosRepository _repositoryDocumentos;
@@ -50,7 +51,7 @@ namespace Solution.FrontEnd.Controllers
             return View(await GetOferenteByUserName());
         }
         // 
-        // POST: Oferentes/model
+        // POST: Oferentes/Edit
         [HttpPost]
         public async Task<IActionResult> Edit([Bind("IdOferente,Nombre,Apellido1,Apellido2,Telefono,UrlCurriculo,UrlFoto,UserName")] data.Oferentes model)
         {
@@ -68,7 +69,7 @@ namespace Solution.FrontEnd.Controllers
             return RedirectToAction(nameof(Index), new { Message = OferentesMessageId.Error });
         }
         //
-        // POST: Oferentes/Add
+        // POST: Oferentes/Add (Resume)
         [HttpPost]
         public async Task<ActionResult> Add(data.Oferentes model, IFormFile files)
         {

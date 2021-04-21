@@ -10,9 +10,11 @@ using Solution.FrontEnd.Models;
 using Microsoft.Extensions.Options;
 using System.Text;
 using Solution.FrontEnd.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Solution.FrontEnd.Controllers
 {
+    [Authorize(Roles=RoleNames.ROLE_EMPLEADOR)]
     public class PuestosTrabajoController : Controller
     {
         private EmpresasRepository _repositoryEmpresas;
@@ -118,12 +120,14 @@ namespace Solution.FrontEnd.Controllers
         // Oferentes
         //
         // GET: PuestosTrabajo/All
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             return View(await _repositoryPuestosTrabajo.GetPuestosTrabajo());
         }
         //
         // GET: PuestosTrabajo/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id, ControllerMessageId? message = null)
         {
             ViewData["StatusMessage"] =

@@ -8,9 +8,12 @@ using Newtonsoft.Json;
 using data = Solution.FrontEnd.Models;
 using System.Text;
 using Solution.FrontEnd.DAL;
+using Microsoft.AspNetCore.Authorization;
+using Solution.FrontEnd.Models;
 
 namespace Solution.FrontEnd.Controllers
 {
+    [Authorize]
     public class ListaOferentesController : Controller
     {
         private ListaOferentesRepository _repositoryListaOferentes;
@@ -27,6 +30,7 @@ namespace Solution.FrontEnd.Controllers
 
         //
         // GET: ListaOferentes/Index/5
+        [Authorize(Roles=RoleNames.ROLE_EMPLEADOR)]
         public async Task<IActionResult> Index(int idPuesto, ControllerMessageId? message = null)
         {
             ViewData["StatusMessage"] = 
@@ -43,6 +47,7 @@ namespace Solution.FrontEnd.Controllers
         //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles=RoleNames.ROLE_EMPLEADOR)]
         public async Task<IActionResult> SetDiscart(int idOferente, int idPuesto)
         {
             data.ListaOferentes oferente = await _repositoryListaOferentes.GetListaOferentesByIds(idOferente, idPuesto);
@@ -60,6 +65,7 @@ namespace Solution.FrontEnd.Controllers
         // POST: ListaOferentes/Submit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles=RoleNames.ROLE_OFERENTE)]
         public async Task<IActionResult> Submit (int idOferente, int idPuesto)
         {
             if(await _repositoryListaOferentes.InsertItemListaOferentes(new data.ListaOferentes 
@@ -75,6 +81,7 @@ namespace Solution.FrontEnd.Controllers
         // 
         // GET: Open Resume
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Resume(int id)
         {
             data.Oferentes oferente = await _repositoryOferentes.GetOferenteById(id);

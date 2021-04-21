@@ -9,10 +9,11 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using Solution.FrontEnd.DAL;
+using Solution.FrontEnd.Models;
 
 namespace Solution.FrontEnd.Controllers
 {
-    [Authorize]
+    [Authorize(Roles=RoleNames.ROLE_EMPLEADOR)]
     public class EmpresasController : Controller
     {
         private EmpresasRepository _repositoryEmpresas;
