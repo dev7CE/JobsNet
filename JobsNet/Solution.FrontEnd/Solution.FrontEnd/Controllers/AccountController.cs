@@ -152,7 +152,7 @@ namespace Solution.FrontEnd.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(PuestosTrabajoController.All), "PuestosTrabajo");
         }
         #region Helpers
         private void AddErrors(IdentityResult result)
@@ -170,7 +170,7 @@ namespace Solution.FrontEnd.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(PuestosTrabajoController.All), "PuestosTrabajo");
             }
         }
         private void CargarRoles()

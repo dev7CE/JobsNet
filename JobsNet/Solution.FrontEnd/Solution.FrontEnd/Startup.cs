@@ -69,7 +69,7 @@ namespace Solution.FrontEnd
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=PuestosTrabajo}/{action=All}");
                 endpoints.MapRazorPages();
             });
         }
