@@ -71,5 +71,25 @@ namespace Solution.FrontEnd.DAL
                 return res.IsSuccessStatusCode;
             }
         }
+        public async Task<bool> CreateOferente(data.Oferentes model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(_baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PostAsync("api/Oferentes", requestContent);
+                return res.IsSuccessStatusCode;
+            }
+        }
     }
 }

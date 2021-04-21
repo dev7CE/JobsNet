@@ -9,6 +9,7 @@ using Solution.FrontEnd.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using Solution.FrontEnd.Models;
+using Solution.FrontEnd.DAL;
 
 namespace Solution.FrontEnd.Controllers
 {
@@ -18,7 +19,10 @@ namespace Solution.FrontEnd.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
-        
+        private UsuariosRepository _repositoryUsuarios;
+        private EmpresasRepository _repositoryEmpresas;
+        private OferentesRepository _repositoryOferentes;
+
         public AccountController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
@@ -29,6 +33,9 @@ namespace Solution.FrontEnd.Controllers
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _roleManager = roleManager;
+            _repositoryUsuarios = new UsuariosRepository();
+            _repositoryEmpresas = new EmpresasRepository();
+            _repositoryOferentes = new OferentesRepository();
         }
         //
         // GET: /Account/Login
@@ -125,6 +132,13 @@ namespace Solution.FrontEnd.Controllers
                 return View(model);
             }
             
+            if(!(await DALRegister(model, user)))
+            {
+                await _userManager.DeleteAsync(user);
+                AddErrors(result);
+                CargarRoles();
+                return View(model);
+            }
             
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation(3, "User created a new account with password.");
@@ -164,6 +178,39 @@ namespace Solution.FrontEnd.Controllers
             ViewBag.Name = new SelectList(_roleManager.Roles.Where(
                 r => !r.NormalizedName.Contains(RoleNames.ROLE_ADMINISTRATOR.ToUpper())).ToList()
                 , "Name", "Name");
+        }
+        private async Task<bool> DALRegister (RegisterViewModel model, IdentityUser user)
+        {
+            bool DALSuccessedResult = false;
+
+            DALSuccessedResult = await _repositoryUsuarios
+                .CreateUsuario( new Usuarios { UserName = model.Email });
+            
+            if (!DALSuccessedResult)
+            return DALSuccessedResult;
+
+            DALSuccessedResult = false;
+
+            if(RoleNames.ROLE_EMPLEADOR.Equals(model.Role))
+            DALSuccessedResult = await _repositoryEmpresas.CreateEmpresa( new Empresas 
+            { 
+                NombreEmpresa = model.Email, 
+                UserName = model.Email 
+            });
+
+            if(RoleNames.ROLE_OFERENTE.Equals(model.Role))
+            DALSuccessedResult = await _repositoryOferentes.CreateOferente( new Oferentes 
+            { 
+                Nombre = model.Email, 
+                UserName = model.Email, 
+                UrlFoto = "facedefault.png",
+                UrlCurriculo = "urlCV"
+            });
+
+            if (!DALSuccessedResult)
+            await _repositoryUsuarios.DeleteUsuario(model.Email);
+            
+            return DALSuccessedResult;
         }
         #endregion
     }

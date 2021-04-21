@@ -60,6 +60,26 @@ namespace Solution.FrontEnd.DAL
                 return null;
             }
         }
+        public async Task<bool> CreateEmpresa(data.Empresas model)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestContent = new StringContent(
+                    JsonConvert.SerializeObject(model), 
+                    Encoding.UTF8, 
+                    "application/json"
+                );
+
+                client.BaseAddress = new Uri(_baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client
+                    .PostAsync("api/Empresas", requestContent);
+                return res.IsSuccessStatusCode;
+            }
+        }
         #region Private Methods
         #endregion
     }
