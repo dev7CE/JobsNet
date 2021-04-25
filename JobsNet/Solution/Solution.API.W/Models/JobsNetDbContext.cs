@@ -87,7 +87,7 @@ namespace Solution.API.W.Models
 
             modelBuilder.Entity<FotosPerfil>(entity =>
             {
-                entity.Property(e => e.FileContent).IsFixedLength();
+                entity.Property(e => e.Guid).IsUnicode(false);
 
                 entity.Property(e => e.Type).IsUnicode(false);
 

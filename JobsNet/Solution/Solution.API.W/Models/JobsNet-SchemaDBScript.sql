@@ -85,7 +85,8 @@ GO
 CREATE TABLE [dbo].[FotosPerfil](
 	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY, 
 	[UserName] [nvarchar](256) NOT NULL, 
-	[FileContent] [binary](8000) NOT NULL, 
+    [Guid] [varchar](MAX) NOT NULL, 
+	[FileContent] varbinary(MAX) NOT NULL, 
 	[Type] [varchar](256) NOT NULL 
 )
 GO

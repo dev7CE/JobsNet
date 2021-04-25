@@ -13,7 +13,8 @@ namespace Solution.API.W.Models
         [StringLength(256)]
         public string UserName { get; set; }
         [Required]
-        [MaxLength(8000)]
+        public string Guid { get; set; }
+        [Required]
         public byte[] FileContent { get; set; }
         [Required]
         [StringLength(256)]
