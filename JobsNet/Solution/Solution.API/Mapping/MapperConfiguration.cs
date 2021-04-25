@@ -15,6 +15,7 @@ namespace Solution.API.Mapping
             CreateMap<data.PuestosTrabajo, DataModels.PuestosTrabajo>().ReverseMap();
             CreateMap<data.ListaOferentes, DataModels.ListaOferentes>().ReverseMap();
             CreateMap<data.Documentos, DataModels.Documentos>().ReverseMap();
+            CreateMap<data.FotosPerfil, DataModels.FotosPerfil>().ReverseMap();
         }
     }
 }

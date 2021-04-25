@@ -29,52 +29,49 @@ namespace Solution.API.W.Controllers
                 await new BS.FotoPerfil(_context).GetAllIncludeWithAsync()
             ).ToList();
         }
-
+        //
         // GET: api/FotosPerfil/5
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<data.FotosPerfil>> GetFotosPerfil(int id)
-        // {
-        //     var fotosPerfil = await _context.FotosPerfil.FindAsync(id);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DataModels.FotosPerfil>> GetFotosPerfil(int id)
+        {
+            var fotosPerfil = await new BS.FotoPerfil(_context)
+                .GetOneByIdIncludeWihAsync(id);
 
-        //     if (fotosPerfil == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (fotosPerfil == null)
+            return NotFound();
 
-        //     return fotosPerfil;
-        // }
-
+            return _mapper.Map<DataModels.FotosPerfil>(fotosPerfil);
+        }
+        //
         // PUT: api/FotosPerfil/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutFotosPerfil(int id, FotosPerfil fotosPerfil)
-        // {
-        //     if (id != fotosPerfil.Id)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutFotosPerfil(int id, DataModels.FotosPerfil fotosPerfil)
+        {
+            if (id != fotosPerfil.Id)
+            return BadRequest();
+            
+            try
+            {
+                new BS.FotoPerfil(_context).Update(
+                    _mapper.Map<data.FotosPerfil>(fotosPerfil)
+                );
+            }
+            catch (Exception)
+            {
+                if (!FotosPerfilExist(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        //     _context.Entry(fotosPerfil).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!FotosPerfilExist(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
 
         // POST: api/FotosPerfil
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -102,21 +99,18 @@ namespace Solution.API.W.Controllers
             return CreatedAtAction("GetFotosPerfil", new { id = fotosPerfil.Id }, fotosPerfil);
         }
 
-        // // DELETE: api/FotosPerfil/5
-        // [HttpDelete("{id}")]
-        // public async Task<ActionResult<FotosPerfil>> DeleteFotosPerfil(int id)
-        // {
-        //     var fotosPerfil = await _context.FotosPerfil.FindAsync(id);
-        //     if (fotosPerfil == null)
-        //     {
-        //         return NotFound();
-        //     }
+        // DELETE: api/FotosPerfil/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataModels.FotosPerfil>> DeleteFotosPerfil(int id)
+        {
+            var fotosPerfil = new BS.FotoPerfil(_context).GetOneById(id);
+            if (fotosPerfil == null)
+            return NotFound();
 
-        //     _context.FotosPerfil.Remove(fotosPerfil);
-        //     await _context.SaveChangesAsync();
+            new BS.FotoPerfil(_context).Delete(fotosPerfil);
 
-        //     return fotosPerfil;
-        // }
+            return _mapper.Map<DataModels.FotosPerfil>(fotosPerfil);
+        }
 
         private bool FotosPerfilExist(int id)
         {

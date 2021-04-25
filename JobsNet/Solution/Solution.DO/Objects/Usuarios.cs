@@ -10,6 +10,7 @@ namespace Solution.DO.Objects
         public Usuarios()
         {
             //Empresas = new HashSet<Empresas>();
+            //FotosPerfil = new HashSet<FotosPerfil>();
             //Oferentes = new HashSet<Oferentes>();
         }
 
@@ -17,6 +18,7 @@ namespace Solution.DO.Objects
 
         public virtual ICollection<Documentos> Documentos { get; set; }
         public virtual ICollection<Empresas> Empresas { get; set; }
+        public virtual ICollection<FotosPerfil> FotosPerfil { get; set; }
         public virtual ICollection<Oferentes> Oferentes { get; set; }
     }
 }
