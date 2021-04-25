@@ -7,6 +7,7 @@ namespace Solution.FrontEnd.W.Models
     {
         public int Id { get; set; }
         public string UserName { get; set; }
+        public string Guid { get; set; }
         public byte[] FileContent { get; set; }
         public string Type { get; set; }
 

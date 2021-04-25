@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -109,10 +109,11 @@ namespace Solution.FrontEnd.W.Models
 
             modelBuilder.Entity<FotosPerfil>(entity =>
             {
-                entity.Property(e => e.FileContent)
+                entity.Property(e => e.FileContent).IsRequired();
+
+                entity.Property(e => e.Guid)
                     .IsRequired()
-                    .HasMaxLength(8000)
-                    .IsFixedLength();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Type)
                     .IsRequired()
