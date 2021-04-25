@@ -38,7 +38,7 @@ namespace Solution.DAL.EF
             
             modelBuilder.Entity<Documentos>(entity =>
             {
-                entity.Property(e => e.FileContent).IsFixedLength();
+                entity.Property(e => e.Guid).IsUnicode(false);
 
                 entity.Property(e => e.Type).IsUnicode(false);
 
@@ -74,7 +74,7 @@ namespace Solution.DAL.EF
 
             modelBuilder.Entity<FotosPerfil>(entity =>
             {
-                entity.Property(e => e.FileContent).IsFixedLength();
+                entity.Property(e => e.Guid).IsUnicode(false);
 
                 entity.Property(e => e.Type).IsUnicode(false);
 
