@@ -81,6 +81,15 @@ CREATE TABLE [dbo].[Documentos](
 )
 GO
 -- ---------------------------------------------------------------------
+-- ----------------------------------------------------- FOTOS DE PERFIL
+CREATE TABLE [dbo].[FotosPerfil](
+	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[UserName] [nvarchar](256) NOT NULL, 
+	[FileContent] [binary](8000) NOT NULL, 
+	[Type] [varchar](256) NOT NULL 
+)
+GO
+-- ---------------------------------------------------------------------
 -- -------------------------- CLAVES FORANEAS --------------------------
 ALTER TABLE [dbo].[Cantones] WITH CHECK 
     ADD CONSTRAINT [FK_PROVINCIAS] 
@@ -122,6 +131,10 @@ ALTER TABLE [dbo].[Documentos] WITH CHECK
     FOREIGN KEY([UserName])
     REFERENCES [dbo].[Usuarios] ([UserName])
 GO
+ALTER TABLE [dbo].[FotosPerfil] WITH CHECK 
+    ADD CONSTRAINT [FK_USUARIO_FOTOPERFIL] 
+    FOREIGN KEY([UserName])
+    REFERENCES [dbo].[Usuarios] ([UserName])
 -- ---------------------------------------------------------------------
 -- ------------------------ INSERCION DE DATOS -------------------------
 -- ---------------------------------------------------------------------

@@ -18,6 +18,7 @@ namespace Solution.API.W.Models
         public virtual DbSet<Cantones> Cantones { get; set; }
         public virtual DbSet<Documentos> Documentos { get; set; }
         public virtual DbSet<Empresas> Empresas { get; set; }
+        public virtual DbSet<FotosPerfil> FotosPerfil { get; set; }
         public virtual DbSet<ListaOferentes> ListaOferentes { get; set; }
         public virtual DbSet<Oferentes> Oferentes { get; set; }
         public virtual DbSet<Provincias> Provincias { get; set; }
@@ -37,7 +38,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Cantones>(entity =>
             {
                 entity.HasKey(e => e.IdCanton)
-                    .HasName("PK__Cantones__6DCE0F29984D3C80");
+                    .HasName("PK__Cantones__6DCE0F2961FA35E8");
 
                 entity.Property(e => e.NombreCanton).IsUnicode(false);
 
@@ -50,11 +51,11 @@ namespace Solution.API.W.Models
 
             modelBuilder.Entity<Documentos>(entity =>
             {
-                entity.Property(e => e.FileContent).IsFixedLength();
+                entity.Property(e => e.Guid).IsUnicode(false);
 
                 entity.Property(e => e.Type).IsUnicode(false);
 
-                entity.HasOne(d => d.Usuario)
+                entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Documentos)
                     .HasForeignKey(d => d.UserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -64,7 +65,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Empresas>(entity =>
             {
                 entity.HasKey(e => e.IdEmpresa)
-                    .HasName("PK__Empresas__5EF4033EA0D65791");
+                    .HasName("PK__Empresas__5EF4033E8DB62F92");
 
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
@@ -84,10 +85,23 @@ namespace Solution.API.W.Models
                     .HasConstraintName("FK_USUARIO_EMPRESA");
             });
 
+            modelBuilder.Entity<FotosPerfil>(entity =>
+            {
+                entity.Property(e => e.FileContent).IsFixedLength();
+
+                entity.Property(e => e.Type).IsUnicode(false);
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.FotosPerfil)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USUARIO_FOTOPERFIL");
+            });
+
             modelBuilder.Entity<ListaOferentes>(entity =>
             {
                 entity.HasKey(e => new { e.IdOferente, e.IdPuesto })
-                    .HasName("PK__ListaOfe__A1C3BA08AF628CDD");
+                    .HasName("PK__ListaOfe__A1C3BA08C581CF26");
 
                 entity.Property(e => e.Descartado).HasDefaultValueSql("((0))");
 
@@ -107,7 +121,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Oferentes>(entity =>
             {
                 entity.HasKey(e => e.IdOferente)
-                    .HasName("PK__Oferente__7B197CB1396F3383");
+                    .HasName("PK__Oferente__7B197CB1AFC8615D");
 
                 entity.Property(e => e.Apellido1).IsUnicode(false);
 
@@ -127,7 +141,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Provincias>(entity =>
             {
                 entity.HasKey(e => e.IdProvincia)
-                    .HasName("PK__Provinci__EED74455C86E2F8A");
+                    .HasName("PK__Provinci__EED744552790A27A");
 
                 entity.Property(e => e.NombreProvincia).IsUnicode(false);
             });
@@ -135,7 +149,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<PuestosTrabajo>(entity =>
             {
                 entity.HasKey(e => e.IdPuesto)
-                    .HasName("PK__PuestosT__ADAC6B9C335B449B");
+                    .HasName("PK__PuestosT__ADAC6B9CEC245AA5");
 
                 entity.Property(e => e.Descripcion).IsUnicode(false);
 
@@ -155,7 +169,7 @@ namespace Solution.API.W.Models
             modelBuilder.Entity<Usuarios>(entity =>
             {
                 entity.HasKey(e => e.UserName)
-                    .HasName("PK__Usuarios__C9F28457FE19CC98");
+                    .HasName("PK__Usuarios__C9F28457B5A370A6");
             });
 
             OnModelCreatingPartial(modelBuilder);

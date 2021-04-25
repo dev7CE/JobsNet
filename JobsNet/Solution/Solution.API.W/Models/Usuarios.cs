@@ -11,6 +11,7 @@ namespace Solution.API.W.Models
         {
             Documentos = new HashSet<Documentos>();
             Empresas = new HashSet<Empresas>();
+            FotosPerfil = new HashSet<FotosPerfil>();
             Oferentes = new HashSet<Oferentes>();
         }
 
@@ -22,6 +23,8 @@ namespace Solution.API.W.Models
         public virtual ICollection<Documentos> Documentos { get; set; }
         [InverseProperty("UserNameNavigation")]
         public virtual ICollection<Empresas> Empresas { get; set; }
+        [InverseProperty("UserNameNavigation")]
+        public virtual ICollection<FotosPerfil> FotosPerfil { get; set; }
         [InverseProperty("UserNameNavigation")]
         public virtual ICollection<Oferentes> Oferentes { get; set; }
     }

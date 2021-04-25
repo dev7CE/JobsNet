@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Solution.API.W.Models
 {
-    public partial class Documentos
+    public partial class FotosPerfil
     {
         [Key]
         public int Id { get; set; }
@@ -13,15 +13,14 @@ namespace Solution.API.W.Models
         [StringLength(256)]
         public string UserName { get; set; }
         [Required]
-        public string Guid { get; set; }
-        [Required]
+        [MaxLength(8000)]
         public byte[] FileContent { get; set; }
         [Required]
         [StringLength(256)]
         public string Type { get; set; }
 
         [ForeignKey(nameof(UserName))]
-        [InverseProperty(nameof(Usuarios.Documentos))]
+        [InverseProperty(nameof(Usuarios.FotosPerfil))]
         public virtual Usuarios UserNameNavigation { get; set; }
     }
 }
