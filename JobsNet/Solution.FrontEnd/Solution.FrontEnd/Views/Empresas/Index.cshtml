@@ -1,11 +1,22 @@
-﻿@model Empresas
+﻿@inject UserService UserService
+@model Empresas
 @{
     ViewData["Title"] = "Perfil";
 }
 <partial name="_IndexEmpresasOferentesPartial" view-data="@ViewData" />
 <div class="az-profile-overview">
     <div class="az-img-user">
-        <img src="~/img/faces/companydefault.png" alt="pp">
+        @if(await UserService.HasProfilePicture(User.Identity.Name))
+        {
+            <partial name="_IndexExistingProfilePicture" view-data="@ViewData"/>
+        } 
+        else 
+        {
+            <input id="user-name" type="hidden" value="@Model.UserName">
+            <input type="file" name="files" 
+                id="filepond" class="filepond"
+                accept="image/png, image/jpeg, image/jpg" >
+        }
     </div><!-- az-img-user -->
     <div class="d-flex justify-content-between mg-b-20">
         <div>
@@ -61,3 +72,16 @@
         </div><!-- az-profile-contact-list -->
     </div><!-- col -->
 </div>
+@section Scripts {
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-edit/dist/filepond-plugin-image-edit.js"></script>
+    <script src="~/lib/filepond/dist/filepond.js"></script>
+    <script src="~/lib/filepond/locale/es-es.js"></script>
+    <script src="~/js/filepond-profile-pic.js"></script>
+}
