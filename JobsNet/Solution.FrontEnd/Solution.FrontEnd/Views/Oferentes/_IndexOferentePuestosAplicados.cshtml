@@ -1,3 +1,4 @@
+@inject UserService UserService
 @{
     IEnumerable<PuestosTrabajo> puestosTrabajo = (IEnumerable<PuestosTrabajo>) ViewData["PuestosTrabajo"];
     ViewBag.Title3 = "Puestos de Trabajo Aplicados";
@@ -12,8 +13,12 @@
         <div class="col-sm-12 mg-b-10">
             <div class="row no-gutters">
                 <div class="bd bd-r-0 d-none d-md-block col-12 col-md-auto box" style="width:121px;">
+                    @{
+                        string picture = await UserService.GetProfilePicture(item.Empresa.UserName);
+                        picture = (string.IsNullOrEmpty(picture)) ? "/img/faces/companydefault.png" : picture; 
+                    }
                     <img style="height:121px;"
-                         src="~/img/faces/companydefault.png" alt="E-Logo" />
+                         src="@picture" alt="E-Logo" />
                 </div>
                 <div class="card col-12 col-md hover">
                     <div class="card-body">

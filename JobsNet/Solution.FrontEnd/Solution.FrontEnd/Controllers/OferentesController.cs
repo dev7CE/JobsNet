@@ -21,12 +21,14 @@ namespace Solution.FrontEnd.Controllers
         private DocumentosRepository _repositoryDocumentos;
         private OferentesRepository _repositoryOferentes;
         private ListaOferentesRepository _repositoryListOferentes;
+        private EmpresasRepository _repositoryEmpresas;
         
         public OferentesController()
         {
             _repositoryDocumentos = new DocumentosRepository();
             _repositoryOferentes = new OferentesRepository();
             _repositoryListOferentes = new ListaOferentesRepository();
+            _repositoryEmpresas = new EmpresasRepository();
         }
 
         public async Task<IActionResult> Index(OferentesMessageId? message = null)
@@ -160,8 +162,11 @@ namespace Solution.FrontEnd.Controllers
                 .Where(lo => lo.Oferente.UserName.Equals(User.Identity.Name));
                 
             foreach (var itemOferente in aux)
-            puestosTrabajo.Add(itemOferente.PuestoTrabajo);
-            
+            {
+                itemOferente.PuestoTrabajo.Empresa = await _repositoryEmpresas
+                    .GetEmpresasById(itemOferente.PuestoTrabajo.IdEmpresa);
+                puestosTrabajo.Add(itemOferente.PuestoTrabajo);
+            }
             return puestosTrabajo;
         }
         public async Task<data.Documentos> GetDocumento()

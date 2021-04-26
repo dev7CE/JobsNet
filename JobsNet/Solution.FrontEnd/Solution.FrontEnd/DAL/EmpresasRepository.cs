@@ -60,6 +60,25 @@ namespace Solution.FrontEnd.DAL
                 return null;
             }
         }
+        public async Task<data.Empresas> GetEmpresasById(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_baseurl);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers
+                        .MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = await client.GetAsync($"api/Empresas/{id}");
+        
+                if (res.IsSuccessStatusCode)
+                {
+                    var auxres = res.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<data.Empresas>(auxres);
+                }
+                return null;
+            }
+        }
         public async Task<bool> CreateEmpresa(data.Empresas model)
         {
             using (var client = new HttpClient())
