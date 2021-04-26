@@ -1,0 +1,116 @@
+@inject UserService UserService
+<div class="filepond--root filepond filepond--hopper" id="filepond" data-style-panel-layout="compact circle"
+    data-style-button-remove-item-position="center bottom" data-style-button-process-item-position="right"
+    data-style-load-indicator-position="center bottom" data-style-progress-indicator-position="right"
+    data-style-button-remove-item-align="false" data-style-image-edit-button-edit-item-position="bottom center"
+    style="height: 110px;">
+    
+    <div class="filepond--list-scroller" style="transform: translate3d(0px, 0px, 0px);">
+        <ul class="filepond--list" role="list">
+            <li class="filepond--item" id="filepond--item-ua522xaoy" data-filepond-item-state="processing-complete"
+                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); opacity: 1; height: 110px;">
+                <fieldset class="filepond--file-wrapper">
+                    <!-- <legend>FileName.extension</legend> -->
+                    <div class="filepond--file">
+                        @{ string guid = await UserService.GetProfilePictureGuid(User.Identity.Name); }
+                        <button class="filepond--file-action-button filepond--action-revert-item-processing" 
+                            type="button" data-align="right" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); opacity: 1;"
+                            onclick="RemoveProfilePicture('@guid')" >
+                            <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z"
+                                    fill="currentColor" fill-rule="nonzero"></path>
+                            </svg>
+                            <span>Eliminar</span>
+                        </button>
+                        <div class="filepond--image-preview-wrapper">
+                            <div class="filepond--image-preview-overlay filepond--image-preview-overlay-idle"
+                                style="opacity: 0.25; pointer-events: none;">
+                                <svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <radialGradient id="gradient-1" cx=".5" cy="1.25" r="1.15">
+                                            <stop offset="50%" stop-color="#000000"></stop>
+                                            <stop offset="56%" stop-color="#0a0a0a"></stop>
+                                            <stop offset="63%" stop-color="#262626"></stop>
+                                            <stop offset="69%" stop-color="#4f4f4f"></stop>
+                                            <stop offset="75%" stop-color="#808080"></stop>
+                                            <stop offset="81%" stop-color="#b1b1b1"></stop>
+                                            <stop offset="88%" stop-color="#dadada"></stop>
+                                            <stop offset="94%" stop-color="#f6f6f6"></stop>
+                                            <stop offset="100%" stop-color="#ffffff"></stop>
+                                        </radialGradient>
+                                        <mask id="mask-1">
+                                            <rect x="0" y="0" width="500" height="200" fill="url(#gradient-1)"></rect>
+                                        </mask>
+                                    </defs>
+                                    <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-1)"></rect>
+                                </svg>
+                            </div>
+                            <!-- OVERLAY LOADED -->
+                            <style>
+                                .filepond--image-preview-overlay-success { color: #5b47fb; }
+                            </style>
+                            <div class="filepond--image-preview-overlay filepond--image-preview-overlay-success"
+                                style="opacity: 1;">
+                                <svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <radialGradient id="gradient-2" cx=".5" cy="1.25" r="1.15">
+                                            <stop offset="50%" stop-color="#000000"></stop>
+                                            <stop offset="56%" stop-color="#0a0a0a"></stop>
+                                            <stop offset="63%" stop-color="#262626"></stop>
+                                            <stop offset="69%" stop-color="#4f4f4f"></stop>
+                                            <stop offset="75%" stop-color="#808080"></stop>
+                                            <stop offset="81%" stop-color="#b1b1b1"></stop>
+                                            <stop offset="88%" stop-color="#dadada"></stop>
+                                            <stop offset="94%" stop-color="#f6f6f6"></stop>
+                                            <stop offset="100%" stop-color="#ffffff"></stop>
+                                        </radialGradient>
+                                        <mask id="mask-2">
+                                            <rect x="0" y="0" width="500" height="200" fill="url(#gradient-2)"></rect>
+                                        </mask>
+                                    </defs>
+                                    <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-2)"></rect>
+                                </svg>
+                            </div>
+                            <!-- OVERLAY FAILURE -->
+                            <div class="filepond--image-preview-overlay filepond--image-preview-overlay-failure"
+                                style="opacity: 0; visibility: hidden; pointer-events: none;">
+                                <svg width="500" height="200" viewBox="0 0 500 200" preserveAspectRatio="none">
+                                    <defs>
+                                        <radialGradient id="gradient-3" cx=".5" cy="1.25" r="1.15">
+                                            <stop offset="50%" stop-color="#000000"></stop>
+                                            <stop offset="56%" stop-color="#0a0a0a"></stop>
+                                            <stop offset="63%" stop-color="#262626"></stop>
+                                            <stop offset="69%" stop-color="#4f4f4f"></stop>
+                                            <stop offset="75%" stop-color="#808080"></stop>
+                                            <stop offset="81%" stop-color="#b1b1b1"></stop>
+                                            <stop offset="88%" stop-color="#dadada"></stop>
+                                            <stop offset="94%" stop-color="#f6f6f6"></stop>
+                                            <stop offset="100%" stop-color="#ffffff"></stop>
+                                        </radialGradient>
+                                        <mask id="mask-3">
+                                            <rect x="0" y="0" width="500" height="200" fill="url(#gradient-3)"></rect>
+                                        </mask>
+                                    </defs>
+                                    <rect x="0" width="500" height="200" fill="currentColor" mask="url(#mask-3)"></rect>
+                                </svg>
+                            </div>
+                            <!-- Foto -->
+                            <div class="filepond--image-preview"
+                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); opacity: 1;">
+                                <div class="filepond--image-clip" style="opacity: 1; height: 110px; width: 110px;">
+                                    <div class="filepond--image-canvas-wrapper"
+                                        style="transform-origin: 137.5px 110px; transform: translate3d(-82.5px, -55px, 0px) scale3d(0.5, 0.5, 1) rotateZ(6.28319rad); opacity: 1; height: 220px; width: 275px;">
+                                        <div class="filepond--image-bitmap" style="transform: scale3d(1, 1, 1);">
+                                            @{ string photo = await UserService.GetProfilePicture(User.Identity.Name); }
+                                            <img src="@photo" alt="Prof" style="width: 275px; height: 220px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </li>
+        </ul>
+    </div>
+</div>

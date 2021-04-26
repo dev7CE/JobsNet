@@ -15,6 +15,7 @@ namespace Solution.FrontEnd.Models
         private OferentesRepository _repositoryOferentes;
         private ListaOferentesRepository _repositoryListaOferentes;
         private DocumentosRepository _repositoryDocumentos;
+        private FotosPerfilRepository _repositoryFotosPerfil;
 
         public UserService() 
         { 
@@ -22,6 +23,7 @@ namespace Solution.FrontEnd.Models
             _repositoryOferentes = new OferentesRepository();
             _repositoryListaOferentes = new ListaOferentesRepository();
             _repositoryDocumentos = new DocumentosRepository();
+            _repositoryFotosPerfil = new FotosPerfilRepository();
         }
         
         public async Task<string> NombreOferente (string userName)
@@ -55,6 +57,30 @@ namespace Solution.FrontEnd.Models
             return false;
 
             return (await GetDocumentByUserName(oferente.UserName) != null);
+        }
+        public async Task<string> GetProfilePicture(string userName)
+        {
+            FotosPerfil foto = (await _repositoryFotosPerfil.GetFotosPerfil())
+                .SingleOrDefault(f => f.UserName.Equals(userName));
+            if (foto == null)
+            return string.Empty;
+
+            return $"data:image/{foto.Type};base64,{Convert.ToBase64String(foto.FileContent, 0, foto.FileContent.Length)}";           
+        }
+        public async Task<string> GetProfilePictureGuid(string userName)
+        {
+            FotosPerfil foto = (await _repositoryFotosPerfil.GetFotosPerfil())
+                .SingleOrDefault(f => f.UserName.Equals(userName));
+            if (foto == null)
+            return string.Empty;
+
+            return foto.Guid;           
+        }
+        public async Task<bool> HasProfilePicture(string userName)
+        {
+            return (await _repositoryFotosPerfil.GetFotosPerfil())
+                .SingleOrDefault(f => f.UserName.Equals(userName)) 
+                != null;
         }
         #region Helpers
         private async Task<data.Documentos> GetDocumentByUserName(string userName)

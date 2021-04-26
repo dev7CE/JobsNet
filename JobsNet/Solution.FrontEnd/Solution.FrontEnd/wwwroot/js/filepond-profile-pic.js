@@ -8,10 +8,12 @@
     FilePondPluginImageEdit
 );
 
+FilePond.setOptions(es_es);
+
 FilePond.create(
     document.querySelector('input[type ="file"]'),
     {
-        labelIdle: `Suelta la foto aqui o <span class="filepond--label-action">Buscar</span>`,
+        labelIdle: `Arrastra una foto aquí o <span class="filepond--label-action">Examinar</span>`,
         imagePreviewHeight: 200,
         imageCropAspectRatio: '1:1',
         imageResizeTargetWidth: 200,
@@ -22,8 +24,6 @@ FilePond.create(
     }
 );
 
-FilePond.setOptions(es_es);
-
 FilePond.setOptions({
     server: {
         url: 'https://localhost:5001',
@@ -31,7 +31,7 @@ FilePond.setOptions({
             const formData = new FormData();
             formData.append(fieldName, file, file.name);
             formData.append('UserName', $('#user-name').val());
-            console.log($('user-name').val());
+            
             const request = new XMLHttpRequest();
             request.open('POST', '/FotosPerfil/Create');
             // Setting computable to false switches the loading indicator to infinite mode
@@ -65,14 +65,14 @@ FilePond.setOptions({
     }
 });
 
-// function RemoveResume(guid) {
-//     console.log(guid);
-//     $.post("RemoveResume", {guid: guid}, function(data, status){
-//         //alert("Data: " + data + "\nStatus: " + status);
-//         console.log(data);
-//         console.log(status);
-//         if(status === 'success' && data.response === 'deleted'){
-//             window.location.href = 'Edit?Message=ResumeDeletedSuccess';
-//         }
-//     });
-// }
+function RemoveProfilePicture(guid) {
+    console.log(guid);
+    $.post("../FotosPerfil/RemoveProfilePicture", {guid: guid}, function(data, status){
+        //alert("Data: " + data + "\nStatus: " + status);
+        console.log(data);
+        console.log(status);
+        if(status === 'success' && data.response === 'deleted'){
+            window.location.href = 'Index?Message=UpdateOferenteSuccess';
+        }
+    });
+}

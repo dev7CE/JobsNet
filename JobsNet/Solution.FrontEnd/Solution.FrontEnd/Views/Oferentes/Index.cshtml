@@ -1,3 +1,4 @@
+@inject UserService UserService
 @model Oferentes
 @{
     ViewData["Title"] = "Perfil";
@@ -8,14 +9,17 @@
 <partial name="_IndexEmpresasOferentesPartial" view-data="@ViewData" />
 <div class="az-profile-overview">
     <div class="az-img-user">
-        <!--
-        <img src="~/img/faces/facedefault.png" alt="pp">
-        accept="image/png, image/jpeg, image/gif"
-        -->
-        <input id="user-name" type="hidden" value="@Model.UserName">
-        <input type="file" name="files" 
-            id="filepond" class="filepond"
-            accept="image/png, image/jpeg, image/jpg">
+        @if(await UserService.HasProfilePicture(User.Identity.Name))
+        {
+            <partial name="_IndexExistingProfilePicture" view-data="@ViewData"/>
+        } 
+        else 
+        {
+            <input id="user-name" type="hidden" value="@Model.UserName">
+            <input type="file" name="files" 
+                id="filepond" class="filepond"
+                accept="image/png, image/jpeg, image/jpg" >
+        }
     </div><!-- az-img-user -->
     <div class="d-flex justify-content-between mg-b-20">
         <div>

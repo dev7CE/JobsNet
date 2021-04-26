@@ -81,6 +81,20 @@ namespace Solution.FrontEnd.Controllers
                 return BadRequest(string.Format("Error encountered on server. Message:'{0}' when writing an object", e.Message));
             }
         }
+        // 
+        // POST: FotosPerfil/RemoveProfilePicture
+        [HttpPost]
+        public async Task<IActionResult> RemoveProfilePicture(string guid)
+        {
+            data.FotosPerfil pic = await GetProfilePicture();
+            if (!guid.Equals((pic.Guid)))
+            return Json(new { response = "invalid" });   
+        
+            if(await _repositoryFotosPerfil.DeleteProfilePicture(pic.Id))
+            return Json(new { response = "deleted" });
+        
+            return Json(new { response = "error" });
+        }
         #region Helpers
         private async Task<data.FotosPerfil> GetProfilePicture()
         {
