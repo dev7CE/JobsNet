@@ -100,7 +100,12 @@
         </dt>
 
         <dd>
-            @Html.Raw(Model.Descripcion.Replace("\n", "<br />"))
+            @{
+                string descripcion = Model.Descripcion;
+                descripcion = (string.IsNullOrEmpty(descripcion)) 
+                    ? "Sin descripcion" : descripcion;
+            } 
+            @Html.Raw(descripcion.Replace("\n", "<br />"))
         </dd>
 
         <dt>
@@ -108,7 +113,12 @@
         </dt>
 
         <dd>
-            @Html.Raw(Model.Requisitos.Replace("\n", "<br />"))
+            @{
+                string requisitos = Model.Descripcion;
+                requisitos = (string.IsNullOrEmpty(requisitos)) 
+                    ? "Sin requisitos" : requisitos;
+            } 
+            @Html.Raw(requisitos.Replace("\n", "<br />"))
         </dd>
 
         <dt>
