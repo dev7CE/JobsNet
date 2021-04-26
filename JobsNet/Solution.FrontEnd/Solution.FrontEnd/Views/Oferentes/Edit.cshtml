@@ -1,8 +1,10 @@
 @model Oferentes
-
+@inject UserService UserService
 @{
     ViewData["Title"] = "Editar Perfil";
     var statusMessage = ViewData["StatusMessage"];
+    string picture = await UserService.GetProfilePicture(User.Identity.Name);
+    picture = (string.IsNullOrEmpty(picture)) ? "/img/faces/facedefault.png" : picture; 
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-style1 mg-b-0">
@@ -42,7 +44,7 @@
         <div class="col-md-8">
             <div class="az-profile-overview">
                 <div class="az-img-user">
-                    <img src="~/img/faces/facedefault.png" alt="pr">
+                    <img src="@picture" alt="pr">
                 </div>
             </div>
         </div>

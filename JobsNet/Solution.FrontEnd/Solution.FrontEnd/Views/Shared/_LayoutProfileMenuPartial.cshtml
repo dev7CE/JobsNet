@@ -10,20 +10,23 @@
 {
     string controllerName, userRole, name;
     controllerName = userRole = name = string.Empty;
-    string photoName = "/img/faces/";
+    string photoName = await UserService.GetProfilePicture(User.Identity.Name);
+    ViewData["PhotoName"] = photoName; 
+    if(string.IsNullOrEmpty(photoName))
+    photoName = "/img/faces/facedefault.png";
 
     if (User.IsInRole("Empleador"))
     {
         controllerName = "Empresas";
         userRole = "Empleador";
-        photoName += "companydefault.png";
+        photoName = "/img/faces/companydefault.png";
         name = await UserService.NombreEmpresa(User.Identity.Name);
     }
     else
     {
         controllerName = "Oferentes";
         userRole = "Oferente";
-        photoName += "facedefault.png";
+        //photoName += "facedefault.png";
         name = await UserService.NombreOferente(User.Identity.Name);
        
     }
