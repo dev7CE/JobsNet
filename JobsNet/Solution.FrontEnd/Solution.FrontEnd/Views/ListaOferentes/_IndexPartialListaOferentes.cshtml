@@ -39,7 +39,11 @@
         <tr class="@trDisabledClasses">
             <td>
                 <div class="az-img-user @imgDisabledClasses">
-                    <img src="~/img/faces/@oferente.UrlFoto" 
+                    @{
+                        string oferentePicture = await UserService.GetProfilePicture(item.Oferente.UserName);
+                        oferentePicture = (string.IsNullOrEmpty(oferentePicture)) ? "/img/faces/facedefault.png" : oferentePicture; 
+                    }
+                    <img src="@oferentePicture" 
                         class="rounded-circle" alt="phto">
                 </div>
             </td>
