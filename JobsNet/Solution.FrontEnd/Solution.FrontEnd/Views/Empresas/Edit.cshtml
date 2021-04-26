@@ -1,7 +1,10 @@
 @model Empresas
+@inject UserService UserService
 @{
     ViewData["Title"] = "Editar";
     int idProvincia = (Model.Canton != null) ? Model.Canton.IdProvincia : -1;
+    string picture = await UserService.GetProfilePicture(User.Identity.Name);
+    picture = (string.IsNullOrEmpty(picture)) ? "/img/faces/companydefault.png" : picture; 
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-style1 mg-b-0">
@@ -23,6 +26,18 @@
     <input type="hidden" id="id-canton" asp-for="IdCanton" />
     <input type="hidden" id="id-provincia" value="@idProvincia" />
     <hr />
+    <div class="form-group row align-items-center">
+        <div class="col-md-3">
+            <label class="form-label mg-b-0">Foto de Perfil</label>
+        </div>
+        <div class="col-md-7">
+            <div class="az-profile-overview">
+                <div class="az-img-user">
+                    <img src="@picture" alt="pr">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-group row align-items-center">
         <div class="col-md-3">
             <label asp-for="NombreEmpresa" class="control-label"></label>

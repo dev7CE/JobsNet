@@ -10,27 +10,23 @@
 {
     string controllerName, userRole, name;
     controllerName = userRole = name = string.Empty;
-    string photoName = await UserService.GetProfilePicture(User.Identity.Name);
-    ViewData["PhotoName"] = photoName; 
-    if(string.IsNullOrEmpty(photoName))
-    photoName = "/img/faces/facedefault.png";
-
+    string photoName = await UserService.GetProfilePicture(User.Identity.Name); 
+    
     if (User.IsInRole("Empleador"))
     {
         controllerName = "Empresas";
         userRole = "Empleador";
-        photoName = "/img/faces/companydefault.png";
+        photoName = (string.IsNullOrEmpty(photoName)) ? "/img/faces/companydefault.png" : photoName;
         name = await UserService.NombreEmpresa(User.Identity.Name);
     }
     else
     {
         controllerName = "Oferentes";
         userRole = "Oferente";
-        //photoName += "facedefault.png";
+        photoName = (string.IsNullOrEmpty(photoName)) ? "/img/faces/facedefault.png" : photoName;
         name = await UserService.NombreOferente(User.Identity.Name);
        
     }
-    //}
     <div class="dropdown az-profile-menu">
         <a href="" class="az-img-user"><img src="@photoName" alt="Prof"></a>
         <div class="dropdown-menu">
