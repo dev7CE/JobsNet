@@ -35,7 +35,6 @@ Visual Studio 2019:
 .NET CLI:
 
     dotnet tool install --global dotnet-aspnet-codegenerator --version 3.1.4
-    dotnet ef migrations add InitialCreate
     dotnet ef database update
 
 ## Autores
