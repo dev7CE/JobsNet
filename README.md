@@ -23,10 +23,10 @@ Los requisitos minimos para ejecutar esta aplicacion son los siguientes:
 
 ### Intalacion y Ejecucion
 
-+ Instale el SDK y la Base de Datos SQL Server y compruebe su correcto funcionamiento.
-+ Ejecute el Script alojado en ['Solution/Solution.API.W/Models'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution/Solution.API.W/Models/JobsNet-SchemaDBScript.sql) en el servidor SQL instalado.
-+ Modifique los strings de conexión ubicados en ['Solution.FrontEnd/Solution.FrontEnd/appsettings.json'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd/appsettings.json) y ['Solution/Solution.API/appsettings.json'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution/Solution.API/appsettings.json) de acuerdo al del servidor instalado.
-+ Ejecute alguno de los siguientes comandos de 'Actualizar Base de Datos' en ['Solution.FrontEnd/Solution.FrontEnd'](https://github.com/dev7CE/JobsNet/tree/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd) según el entorno en que esté:
+- Instale el SDK y la Base de Datos SQL Server y compruebe su correcto funcionamiento.
+- Ejecute el Script alojado en ['Solution/Solution.API.W/Models'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution/Solution.API.W/Models/JobsNet-SchemaDBScript.sql) en el servidor SQL instalado.
+- Modifique los strings de conexión ubicados en ['Solution.FrontEnd/Solution.FrontEnd/appsettings.json'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd/appsettings.json) y ['Solution/Solution.API/appsettings.json'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution/Solution.API/appsettings.json) de acuerdo al del servidor instalado.
+- Ejecute alguno de los siguientes comandos de 'Actualizar Base de Datos' en ['Solution.FrontEnd/Solution.FrontEnd'](https://github.com/dev7CE/JobsNet/tree/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd) según el entorno en que esté:
 
 Visual Studio 2019:
 
@@ -36,6 +36,10 @@ Visual Studio 2019:
 
     dotnet tool install --global dotnet-aspnet-codegenerator --version 3.1.4
     dotnet ef database update
+    
+- Ejecute el proyecto ['Solution.Solution.API'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution/Solution.API).
+- Modifique los ['url base de cada DAL'](https://github.com/dev7CE/JobsNet/blob/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd/DAL) segun el link del API, si es requerido.
+- Ejecute el proyecto ['Solution.Solution.FrontEnd'](https://github.com/dev7CE/JobsNet/tree/master/JobsNet/Solution.FrontEnd/Solution.FrontEnd).
 
 ## Autores
 
