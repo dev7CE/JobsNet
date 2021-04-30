@@ -10,7 +10,7 @@ namespace Solution.FrontEnd.DAL
 {
     public class CantonesRepository
     {
-        private readonly string _baseurl = "http://localhost:5000/";
+        private readonly string _baseurl = "http://localhost:51276";
 
         public async Task<IEnumerable<data.Cantones>> GetCantonesByIdProvincia(int id)
         {
