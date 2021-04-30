@@ -239,29 +239,29 @@ INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('MATINA', 5)
 INSERT INTO Cantones (NombreCanton, IdProvincia) VALUES ('GUACIMO', 5)
 -- ---------------------------------------------------------------------
 -- --------------------------------------------------- USUARIOS IDENTITY
-INSERT INTO Usuarios (UserName) VALUES ('recursoshumanos@kcc.com');
-INSERT INTO Usuarios (UserName) VALUES ('reclutamiento@correoscr.com');
-INSERT INTO Usuarios (UserName) VALUES ('talento@calvinkleinla.com');
-INSERT INTO Usuarios (UserName) VALUES ('bmora70466@ufide.ac.cr');
-INSERT INTO Usuarios (UserName) VALUES ('lvega70467@ufide.ac.cr');
+-- INSERT INTO Usuarios (UserName) VALUES ('recursoshumanos@kcc.com');
+-- INSERT INTO Usuarios (UserName) VALUES ('reclutamiento@correoscr.com');
+-- INSERT INTO Usuarios (UserName) VALUES ('talento@calvinkleinla.com');
+-- INSERT INTO Usuarios (UserName) VALUES ('bmora70466@ufide.ac.cr');
+-- INSERT INTO Usuarios (UserName) VALUES ('lvega70467@ufide.ac.cr');
 -- ---------------------------------------------------------------------
 -- ------------------------------------------------------------ EMPRESAS
-INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
-	VALUES ('recursoshumanos@kcc.com', 'Kymberly Clark', 'Productos de aseo', '84781217', 1);
-INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
-    VALUES ('reclutamiento@correoscr.com', 'Correos de Costa Rica', 'Servicio Postal', '84781216', 5);
-INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
-    VALUES ('talento@calvinkleinla.com', 'Calvin Klein Costa Rica', 'Moda y Estilo de Vida', '84781218', 4);
+-- INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
+-- 	VALUES ('recursoshumanos@kcc.com', 'Kymberly Clark', 'Productos de aseo', '84781217', 1);
+-- INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
+--     VALUES ('reclutamiento@correoscr.com', 'Correos de Costa Rica', 'Servicio Postal', '84781216', 5);
+-- INSERT INTO Empresas (UserName, NombreEmpresa, Descripcion, Telefono, IdCanton)
+--     VALUES ('talento@calvinkleinla.com', 'Calvin Klein Costa Rica', 'Moda y Estilo de Vida', '84781218', 4);
 -- ---------------------------------------------------------------------
 -- -------------------------------------------------- PUESTOS DE TRABAJO
 
 -- ---------------------------------------------------------------------
 -- ----------------------------------------------------------- OFERENTES
-INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
-    , UrlCurriculo, UrlFoto, UserName)
-    VALUES ('Bryan', 'Mora', 'Cascante', '84782021'
-    , 'urlCV', 'facedefault.png', 'bmora70466@ufide.ac.cr');
-INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
-    , UrlCurriculo, UrlFoto, UserName)
-    VALUES ('Lyam', 'Vega', 'Hernandez', '84782022'
-    , 'urlCV', 'facedefault.png', 'lvega70467@ufide.ac.cr');
+-- INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
+--     , UrlCurriculo, UrlFoto, UserName)
+--     VALUES ('Bryan', 'Mora', 'Cascante', '84782021'
+--     , 'urlCV', 'facedefault.png', 'bmora70466@ufide.ac.cr');
+-- INSERT INTO Oferentes (Nombre, Apellido1, Apellido2, Telefono
+--     , UrlCurriculo, UrlFoto, UserName)
+--     VALUES ('Lyam', 'Vega', 'Hernandez', '84782022'
+--     , 'urlCV', 'facedefault.png', 'lvega70467@ufide.ac.cr');
