@@ -83,15 +83,15 @@ namespace Solution.FrontEnd.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPuesto,IdEmpresa,Titulo,Descripcion,Requisitos,FechaPublicacion,FechaCierre")] PuestosTrabajo puestosTrabajo)
+        public async Task<IActionResult> Edit(int IdPuesto, int IdEmpresa, [Bind("IdPuesto,IdEmpresa,Titulo,Descripcion,Requisitos,FechaPublicacion,FechaCierre")] PuestosTrabajo puestosTrabajo)
         {
-            if (id != puestosTrabajo.IdPuesto)    
+            if (IdPuesto != puestosTrabajo.IdPuesto)    
             return NotFound();
 
             if (!ModelState.IsValid)
             return View(puestosTrabajo);
             
-            if (await _repositoryPuestosTrabajo.UpdatePuesto(id, puestosTrabajo))
+            if (await _repositoryPuestosTrabajo.UpdatePuesto(IdPuesto, puestosTrabajo))
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.UpdatePuestoTrabajoSuccess });
             
             return RedirectToAction(nameof(Index), new { Message = ControllerMessageId.Error });
