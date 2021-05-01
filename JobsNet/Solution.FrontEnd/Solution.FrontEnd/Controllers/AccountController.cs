@@ -139,7 +139,7 @@ namespace Solution.FrontEnd.Controllers
                 CargarRoles();
                 return View(model);
             }
-            
+            returnUrl = (model.Role.Equals(RoleNames.ROLE_EMPLEADOR.ToString())) ? "PuestosTrabajo/Index" : string.Empty;
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation(3, "User created a new account with password.");
             return RedirectToLocal(returnUrl);
@@ -164,9 +164,14 @@ namespace Solution.FrontEnd.Controllers
         }
         private IActionResult RedirectToLocal(string returnUrl)
         {
+            returnUrl = (string.IsNullOrEmpty(returnUrl)) ? string.Empty : returnUrl;
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
+            }
+            else if (returnUrl.Equals("PuestosTrabajo/Index"))
+            {
+                return RedirectToAction(nameof(PuestosTrabajoController.Index), "PuestosTrabajo");
             }
             else
             {
