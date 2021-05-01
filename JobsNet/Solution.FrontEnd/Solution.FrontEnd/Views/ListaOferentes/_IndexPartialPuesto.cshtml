@@ -45,7 +45,7 @@
     <dd>@Html.Raw(descripcion.Replace("\n", "<br />"))</dd>
     <dt>¿Cuáles son los requisitos para este puesto?</dt>
     @{
-        string requisitos = Model.Descripcion;
+        string requisitos = Model.Requisitos;
         requisitos = (string.IsNullOrEmpty(requisitos)) 
             ? "Sin requisitos" : requisitos;
     } 
