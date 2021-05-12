@@ -45,5 +45,3 @@ Visual Studio 2019:
 
   - **Byron Leal** -
     [dev7CE](https://github.com/dev7CE)
-  - **Valery Sanabria** -
-    [Valery2508](https://github.com/Valery2508)
